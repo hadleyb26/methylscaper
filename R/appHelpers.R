@@ -11,7 +11,6 @@ buildOrderObjectShiny <- function(gch, hcg, method,
                                      weightFeature=coordinatesObject$weight.color,
                                      updateProgress=updateProgress)
     return(orderObject)
-    
 }
 
 refineOrderShiny <- function(orderObject, refine.method, coordinatesObject)
@@ -65,7 +64,7 @@ handleBrushCoordinates <- function(plot_brush, n, m){
     first.row <- round((first.row.raw / (n - 10)) * n)
     last.row <- round((last.row.raw / (n - 10)) * n)
 
-    if(first.row <= 2) first.row <- 1
+    if (first.row <= 2) first.row <- 1
     if (last.row >= n - 1) last.row <- n
 
     if (first.row >= n - 1 | last.row <= 2)
@@ -108,11 +107,11 @@ handleBrushCoordinates <- function(plot_brush, n, m){
     if (first.col <= 2) first.col <- 1
     if (last.col >= (m - 2)) last.col <- m
 
-    return(list(first.row = ifelse(first.row == 0, 0, (n:1)[first.row]),
-                last.row = ifelse(last.row == 0, 0, (n:1)[last.row]),
-                first.col = first.col,
-                last.col = last.col,
-                weight.color = weight.color))
+    return(list(first.row=ifelse(first.row == 0, 0, (n:1)[first.row]),
+                last.row=ifelse(last.row == 0, 0, (n:1)[last.row]),
+                first.col=first.col,
+                last.col=last.col,
+                weight.color=weight.color))
 
 }
 
