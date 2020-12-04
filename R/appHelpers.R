@@ -1,35 +1,39 @@
 buildOrderObjectShiny <- function(gch, hcg, method,
                                   coordinatesObject, updateProgress)
 {
-    if (coordinatesObject$weight.start == 0 | coordinatesObject$weight.stop == 0)
+    if (coordinatesObject$weight.start == 0 | 
+        coordinatesObject$weightStop == 0)
     {
         orderObject <- initialOrder(gch, hcg, Method=method)
     }
     else orderObject <- initialOrder(gch, hcg, Method=method,
-                                     weightStart=coordinatesObject$weight.start,
-                                     weightEnd=coordinatesObject$weight.stop,
-                                     weightFeature=coordinatesObject$weight.color,
+                                     weightStart=coordinatesObject$weightStart,
+                                     weightEnd=coordinatesObject$weightStop,
+                                     weightFeature=
+                                         coordinatesObject$weightColor,
                                      updateProgress=updateProgress)
     return(orderObject)
 }
 
-refineOrderShiny <- function(orderObject, refine.method, coordinatesObject)
+refineOrderShiny <- function(orderObject, refineMethod, coordinatesObject)
 {
-    refineFunction(orderObject, coordinatesObject$refine.start, 
-                   coordinatesObject$refine.stop, Method=refine.method)
+    refineFunction(orderObject, coordinatesObject$refineStart, 
+                   coordinatesObject$refineStop, Method=refineMethod)
 }
 
 makePlot <- function(orderObject, coordinatesObject, drawLines=TRUE, ...)
 {
 
     plotSequence(orderObject, ...)
-    if (coordinatesObject$refine.start != 0 & coordinatesObject$refine.stop != 0)
+    if (coordinatesObject$refineStart != 0 & coordinatesObject$refineStop != 0)
     ## Draw the horizontal lines
     {
         n <- nrow(orderObject$toClust)
-        ymin <- (((n:1)[coordinatesObject$refine.start] / n * (n - 10)) + 10) / n 
+        ymin <- (((n:1)[coordinatesObject$refineStart] / 
+                    n * (n - 10)) + 10) / n 
         ## Convert back to raw coordinates
-        ymax <- (((n:1)[coordinatesObject$refine.stop] / n * (n - 10)) + 10) / n
+        ymax <- (((n:1)[coordinatesObject$refineStop] / 
+                    n * (n - 10)) + 10) / n
         if (drawLines)
         {
             abline(b=0, a=ymax, col="blue", lwd=2.5)
@@ -37,13 +41,13 @@ makePlot <- function(orderObject, coordinatesObject, drawLines=TRUE, ...)
         }
 
     }
-    if (coordinatesObject$weight.start != 0 & coordinatesObject$weight.stop != 0) 
+    if (coordinatesObject$weightStart != 0 & coordinatesObject$weightStop != 0) 
     ## Draw the vertical lines
     {
-        m <- ncol(orderObject$toClust) / 2 ## Convert back to raw coordinates
-        xmin <- (coordinatesObject$weight.start / m) * 0.45
-        xmax <- (coordinatesObject$weight.stop / m) * 0.45
-        if (coordinatesObject$weight.color == "yellow")
+        m <- ncol(orderObject$toClust) / 2 # Convert back to raw coordinates
+        xmin <- (coordinatesObject$weightStart / m) * 0.45
+        xmax <- (coordinatesObject$weightStop / m) * 0.45
+        if (coordinatesObject$weightColor == "yellow")
         {
             xmin <- xmin + 0.55
             xmax <- xmax + 0.55
@@ -56,62 +60,62 @@ makePlot <- function(orderObject, coordinatesObject, drawLines=TRUE, ...)
     }
 }
 
-handleBrushCoordinates <- function(plot_brush, n, m){
+handleBrushCoordinates <- function(plotBrush, n, m){
     weight.color <- "red"
 
-    first.row.raw <- round(plot_brush$ymin * n) - 10
-    last.row.raw <- round(plot_brush$ymax * n) - 10
-    first.row <- round((first.row.raw / (n - 10)) * n)
-    last.row <- round((last.row.raw / (n - 10)) * n)
+    firstRowRaw <- round(plotBrush$ymin * n) - 10
+    lastRowRaw <- round(plotBrush$ymax * n) - 10
+    firstRow <- round((firstRowRaw / (n - 10)) * n)
+    lastRow <- round((lastRowRaw / (n - 10)) * n)
 
-    if (first.row <= 2) first.row <- 1
-    if (last.row >= n - 1) last.row <- n
+    if (firstRow <= 2) firstRow <- 1
+    if (lastRow >= n - 1) lastRow <- n
 
-    if (first.row >= n - 1 | last.row <= 2)
+    if (firstRow >= n - 1 | lastRow <= 2)
     {
-        first.row <- 0
-        last.row <- 0
+        firstRow <- 0
+        lastRow <- 0
     }
 
 
-    first.col <- round(plot_brush$xmin, 2)
-    last.col <- round(plot_brush$xmax, 2)
+    firstCol <- round(plotBrush$xmin, 2)
+    lastCol <- round(plotBrush$xmax, 2)
 
-    if (first.col <= 0.45) ## Red weighting
+    if (firstCol <= 0.45) # Red weighting
     {
-        if (last.col >= 0.45) last.col <- 0.45 
+        if (lastCol >= 0.45) lastCol <- 0.45 
         ## Force the last column to be in the red
-        first.col <- first.col / 0.45
-        first.col <- round(first.col * m)
-        last.col <- last.col / 0.45
-        last.col <- round(last.col * m)
+        firstCol <- firstCol / 0.45
+        firstCol <- round(firstCol * m)
+        lastCol <- lastCol / 0.45
+        lastCol <- round(lastCol * m)
 
     }
-    else if (first.col >= 0.55) ## Yellow weighting
+    else if (firstCol >= 0.55) # Yellow weighting
     {
-        weight.color <- "yellow"
-        first.col <- first.col - 0.55
-        last.col <- last.col - 0.55
+        weightColor <- "yellow"
+        firstCol <- firstCol - 0.55
+        lastCol <- lastCol - 0.55
 
-        first.col <- first.col / 0.45
-        first.col <- round(first.col * m)
-        last.col <- last.col / 0.45
-        last.col <- round(last.col * m)
+        firstCol <- firstCol / 0.45
+        firstCol <- round(firstCol * m)
+        lastCol <- lastCol / 0.45
+        lastCol <- round(lastCol * m)
     }
-    else ## In the middle, just set them to 0
+    else # In the middle, just set them to 0
     {
-        first.col <- 0
-        last.col <- 0
+        firstCol <- 0
+        lastCol <- 0
     }
 
-    if (first.col <= 2) first.col <- 1
-    if (last.col >= (m - 2)) last.col <- m
+    if (firstCol <= 2) firstCol <- 1
+    if (lastCol >= (m - 2)) lastCol <- m
 
-    return(list(first.row=ifelse(first.row == 0, 0, (n:1)[first.row]),
-                last.row=ifelse(last.row == 0, 0, (n:1)[last.row]),
-                first.col=first.col,
-                last.col=last.col,
-                weight.color=weight.color))
+    return(list(firstRow=ifelse(firstRow == 0, 0, (n:1)[firstRow]),
+                lastRow=ifelse(lastRow == 0, 0, (n:1)[lastRow]),
+                firstCol=firstCol,
+                lastCol=lastCol,
+                weightColor=weightColor))
 
 }
 

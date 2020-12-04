@@ -6,17 +6,17 @@
 #' @param input.GCH The GCH input data.
 #' @param input.HCG The HCG input data.
 #' @param Method Indicates the seriation method to use. 
-#' The default option is "PCA", which orders the data using 
-#' the first principal component. Any seriation method provided 
-#' in the \code{seriation} package is valid.
+#'               The default option is "PCA", which orders the data using 
+#'               the first principal component. Any seriation method provided 
+#'               in the \code{seriation} package is valid.
 #' @param weightStart Index of the first column used in the weighted seriation.
 #' @param weightEnd Index of the last column used in the weighted seriation.
 #' @param weightFeature Indicates whether to weight the GCH or HCG data.
 #' @param updateProgress A function to handle the progress bar for the 
-#' Shiny app. Should not be used when using the function independently.
-#'
+#'                       Shiny app. Should not be used when using the function 
+#'                       independently.
 #' @return An object of class \code{orderObject}, which contains the generated 
-#' ordering and the cleaned data matrix.
+#'         ordering and the cleaned data matrix.
 #' @importFrom seriation seriate get_order
 #' @importFrom stats as.dist dist
 #' @importFrom Rfast Dist
