@@ -1,7 +1,7 @@
 buildOrderObjectShiny <- function(gch, hcg, method,
                                   coordinatesObject, updateProgress)
 {
-    if (coordinatesObject$weight.start == 0 | 
+    if (coordinatesObject$weightStart == 0 | 
         coordinatesObject$weightStop == 0)
     {
         orderObject <- initialOrder(gch, hcg, Method=method)
@@ -61,7 +61,7 @@ makePlot <- function(orderObject, coordinatesObject, drawLines=TRUE, ...)
 }
 
 handleBrushCoordinates <- function(plotBrush, n, m){
-    weight.color <- "red"
+    weightColor <- "red"
 
     firstRowRaw <- round(plotBrush$ymin * n) - 10
     lastRowRaw <- round(plotBrush$ymax * n) - 10
