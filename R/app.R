@@ -10,6 +10,7 @@
 #' @export
 methylscaper <- function() {
 
-	options(shiny.maxRequestSize = 10000*1024^5)
+    options(shinyMaxRequestSize=10000*1024^5)
 
-	shinyApp(ui = ui, server = server)}
+    shinyApp(ui=ui, server=server)
+}
