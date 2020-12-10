@@ -28,7 +28,7 @@ plotSequence <- function(orderObject, plotFAST=TRUE,
     input.HCG <- toClust[,(ncol(toClust) / 2 + 1):ncol(toClust)]
 
     mycols <- c("darkgoldenrod2", "yellow", "gray62",  "black", "gray80", "white", "gray80", "black", "gray62", "red", "darkred")
-    VALS <- c(-5,-4,-3,-2.5,-2,-1,0,1,2,2.5,3,4)
+    VALS <- c(-5, -4, -3, -2.5, -2, -1, 0, 1, 2, 2.5, 3, 4)
 
 
     input.HCG.fix <- input.HCG
