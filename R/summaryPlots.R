@@ -1,25 +1,24 @@
 #' Calculates the percentage of C at each methylation site
-#'
 #' @param orderObject An object of class \code{orderObject}
-#' @param plotPercents Logical, indicates whether to generate the percentage plot
+#' @param plotPercents Logical, indicates whether to 
+#'                     generate the percentage plot
 #' @param ... Additional parameters used by the \code{plot} function.
-#'
 #' @importFrom graphics hist lines plot points
 #' @export
-percent_C <- function(orderObject, plotPercents = FALSE, ...){
+percent_C <- function(orderObject, plotPercents=FALSE, ...){
     dat <- orderObject$toClust
-    red.sites <- which(dat[1,1:ncol(dat)] == 4 |
-                          dat[1,1:ncol(dat)] == 1)
+    redSites <- which(dat[1,1:ncol(dat)] == 4 |
+                       dat[1,1:ncol(dat)] == 1)
 
-    yellow.sites <- which(dat[1,1:ncol(dat)] == -4 |
-                          dat[1,1:ncol(dat)] == -1)
-    c.red <- sapply(red.sites, function(i){
+    yellowSites <- which(dat[1,1:ncol(dat)] == -4 |
+                         dat[1,1:ncol(dat)] == -1)
+    cRed <- sapply(redSites, function(i){
         sum(dat[, i] == 4) / nrow(dat)
     })
-    c.yellow <- sapply(yellow.sites, function(i){
+    cYellow <- sapply(yellowSites, function(i){
         sum(dat[, i] == -4) / nrow(dat)
     })
-    if (plotPercents)
+    if (plotPercents) #stopped here for updates
     {
        plot(x = red.sites - ncol(dat)/2, y = c.red,
             col="brown1", pch=19, ylim=c(0,1), xlab = "Region (Base Pair)", ylab="%C",
