@@ -39,12 +39,12 @@ prepSC <- function(gcSeqData, cgSeqData, startPos, endPos,
     allGcSites <- unique(do.call(c, gcSeqSub))
 
     useseq <- intersect(which(sapply(cgSeqSub, function(x) nrow(x)) > 0 ),
-                      which(sapply(gcSeqSub, function(x) nrow(x)) > 0 ))
+                        which(sapply(gcSeqSub, function(x) nrow(x)) > 0 ))
     if (length(useseq) == 0)
-  {
+    {
     stop("No valid sites in designated range. 
          Try different start and end positions.")
-  }
+    }
 
     cgSeqSub <- cgSeqSub[useseq]
     gcSeqSub <- gcSeqSub[useseq]
@@ -81,7 +81,7 @@ mapSC <- function(IN.seq, startPos, endPos) {
     sitesTemp <- c(0, sites, max(sites)+1)
 
     for (j in 1:(length(sitesTemp)-1)) {
-        toFill <- seq(sitesTemp[j]+1,(sitesTemp[j+1]-1))
+        toFill <- seq(sitesTemp[j]+1, (sitesTemp[j+1]-1))
         s1 <- editseq[pmax(1, sitesTemp[j])]
         s2 <- editseq[pmin(length(editseq), sitesTemp[j+1])]
 
@@ -92,6 +92,6 @@ mapSC <- function(IN.seq, startPos, endPos) {
         fillVec <- -1} else {fillvec <- 0}
     fillVec <- rep(fillVec, length(toFill))
     editseq[toFill] <- fillVec
-  }
+    }
     return(editseq)
 }
