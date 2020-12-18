@@ -27,8 +27,8 @@
 ##' @importFrom graphics abline image par axis segments
 ##' @export
 plotSequence <- function(orderObject, plotFAST=TRUE,
-                           blankWidth=75, Title="",
-                           drawLine=T, drawKey=T) {
+                         blankWidth=75, Title="",
+                         drawLine=T, drawKey=T) {
     ## Start with yellow at top as the default:
     toClust <- orderObject$toClust
     order1 <- orderObject$order1
@@ -66,7 +66,7 @@ plotSequence <- function(orderObject, plotFAST=TRUE,
     ## Plotting:
     par(xpd=F, mar=c(2, 2, 2, 1), mgp=c(0, 0.5, 0))
     image(t(toPlotFix), col=mycols, axes=F, breaks=VALS,
-            main=Title, useRaster=plotFAST, ylim=c(0,1.028))
+            main=Title, useRaster=plotFAST, ylim=c(0, 1.028))
     axis(3, at=sitesScale, labels=rep("", length(sitesScale)),
            tick=T, line=.1, col="white", cex=1, lwd=1,
            col.ticks="black", tck=.02)
@@ -94,9 +94,9 @@ plotSequence <- function(orderObject, plotFAST=TRUE,
 
     ## Just drawing a straight DNA line:
     if (drawLine == TRUE) {
-            par(xpd=NA)
-      top1 <- 1.01
-      segments(0, top1, plot1, top1, lwd=1)
-      segments(plot2, top1, 1, top1, lwd=1)
+        par(xpd=NA)
+        top1 <- 1.01
+        segments(0, top1, plot1, top1, lwd=1)
+        segments(plot2, top1, 1, top1, lwd=1)
     }
   }
