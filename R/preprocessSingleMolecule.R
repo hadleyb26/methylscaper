@@ -94,11 +94,12 @@ alignSequences <- function(fasta, refString, logVector, multicoreParam=NULL,
                            updateProgress=NULL)
 {
     ## this creates the substitution matrix for use in alignment
-    penaltyMat <- matrix(0,length(DNA_ALPHABET[1:4]),length(DNA_ALPHABET[1:4]))
-    penaltyMat[1:4,1:4] <- c(1,0,1,0,0,1,0,0,0,0,1,0,0,1,0,1)
+    penaltyMat <- matrix(0,length(DNA_ALPHABET[1:4]), 
+                         length(DNA_ALPHABET[1:4]))
+    penaltyMat[1:4, 1:4] <- c(1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1)
     penaltyMat[penaltyMat == 0] <- -5
-    penaltyMat <- cbind(penaltyMat, c(0,0,0,0))
-    penaltyMat <- rbind(penaltyMat, c(0,0,0,0,1))
+    penaltyMat <- cbind(penaltyMat, c(0, 0, 0, 0))
+    penaltyMat <- rbind(penaltyMat, c(0, 0, 0, 0, 1))
     rownames(penaltyMat) <- colnames(penaltyMat) <- c(DNA_ALPHABET[1:4], "N")
 
     if (is.null(multicoreParam)) seqAlignOut <- lapply(1:length(fasta), 
@@ -186,7 +187,7 @@ mapSeq <- function(i, sites) {
 
     sitesTemp <- c(0, sites, length(editSeq)+1)
     for (j in 1:(length(sitesTemp)-1)) {
-        toFill <- seq(sitesTemp[j]+1,(sitesTemp[j+1]-1))
+        toFill <- seq(sitesTemp[j]+1, (sitesTemp[j+1]-1))
         s1 <- editSeq[pmax(1, sitesTemp[j])]
         s2 <- editSeq[pmin(length(i), sitesTemp[j+1])]
         isFirst <- (pmax(1, sitesTemp[j]) == 1)
