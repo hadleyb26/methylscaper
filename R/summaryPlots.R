@@ -10,7 +10,7 @@
 percentC <- function(orderObject, plotPercents=FALSE, ...){
     dat <- orderObject$toClust
     redSites <- which(dat[1, 1:ncol(dat)] == 4 |
-                       dat[1, 1:ncol(dat)] == 1)
+                      dat[1, 1:ncol(dat)] == 1)
 
     yellowSites <- which(dat[1,1:ncol(dat)] == -4 |
                          dat[1, 1:ncol(dat)] == -1)
@@ -22,18 +22,18 @@ percentC <- function(orderObject, plotPercents=FALSE, ...){
     })
     if (plotPercents)
     {
-       plot(x=redSites - ncol(dat)/2, y=cRed,
+        plot(x=redSites - ncol(dat)/2, y=cRed,
             col="brown1", pch=19, ylim=c(0, 1), xlab="Region (Base Pair)", 
             ylab="%C",
             bty='n', cex.lab=1.3, xaxt='n', yaxt='n', ...)
-       axis(side=1, lwd=2, cex.axis=1.2)
-       axis(side=2, lwd=2, cex.axis=1.2)
-       lines(x=redSites - ncol(dat)/2, y=cRed, col="brown1")
-       points(x=yellowSites, y=cYellow, col="gold2", pch=19)
-       lines(x=yellowSites, y=cYellow, col="gold2")
+        axis(side=1, lwd=2, cex.axis=1.2)
+        axis(side=2, lwd=2, cex.axis=1.2)
+        lines(x=redSites - ncol(dat)/2, y=cRed, col="brown1")
+        points(x=yellowSites, y=cYellow, col="gold2", pch=19)
+        lines(x=yellowSites, y=cYellow, col="gold2")
 
-       nSites <- length(union(redSites, yellowSites))
-       labs <- union(redSites, yellowSites)[seq(1, nSites, by=nSites/12)]
+        nSites <- length(union(redSites, yellowSites))
+        labs <- union(redSites, yellowSites)[seq(1, nSites, by=nSites/12)]
     }
     final <- list(cRed, cYellow)
     names(final) <- c("red", "yellow")
@@ -53,19 +53,19 @@ percentC <- function(orderObject, plotPercents=FALSE, ...){
 #' @export
 proportionColor <- function(orderObject, color="YELLOW", 
                             plotHistogram=FALSE, ...){
-  colorIndicator <- ifelse(color == "YELLOW", -1, 1)
-  proportion <- apply(orderObject$toClust, 1, function(x){
+    colorIndicator <- ifelse(color == "YELLOW", -1, 1)
+    proportion <- apply(orderObject$toClust, 1, function(x){
     sum(x == colorIndicator * 3 | x == colorIndicator * 4) / (length(x) / 2)
   })
-  if (plotHistogram) {
+    if (plotHistogram) {
     opar <- par(lwd=4)
     h <- hist(proportion, plot=F, breaks=15)
     plot(h, xlim=c(0, 1), border=ifelse(color == "YELLOW", "gold2", "brown1"),
-       col="gray75",
-       lwd=2, ...)
+         col="gray75",
+         lwd=2, ...)
     par(opar)
   }
-  return(proportion)
+    return(proportion)
 }
 
 #' Calculate the average methylation/accessibility status across all reads.
