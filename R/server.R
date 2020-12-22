@@ -3,7 +3,7 @@ server <- function(input, output) {
     actionsLog <- reactiveValues(log=c("")) 
     ## logs the actions taken wrt the plot
   
-##Single-cell data 
+## Single-cell data 
 
     scSeqData <- reactiveValues(gch=NULL, hcg=NULL) # for raw data
     scInputData <- reactiveValues(gch=NULL, hcg=NULL) # for state matrices
@@ -30,7 +30,7 @@ server <- function(input, output) {
 
     output$positionSlider <- renderUI({
         if (!is.null(scSeqData$gch) & !is.null(scSeqData$hcg) &
-            input$startPos!=0 & input$endPos!=0)
+            input$startPos != 0 & input$endPos != 0)
         {
             cgMaxPos <- max(sapply(scSeqData$hcg, FUN=function(x) max(x$pos)))
             cgMinPos <- min(sapply(scSeqData$hcg, FUN=function(x) min(x$pos)))
@@ -77,8 +77,8 @@ server <- function(input, output) {
 
         prepOut <- prepSC(scSeqData$gch, scSeqData$hcg, 
                           input$positionSliderInput[1],
-                           input$positionSliderInput[2],
-                           updateProgress=updateProgress)
+                          input$positionSliderInput[2],
+                          updateProgress=updateProgress)
 
         tempGch <- prepOut$gch
         tempHcg <- prepOut$hcg
@@ -103,8 +103,8 @@ server <- function(input, output) {
 
     ## this object keeps track of the coordinates for refinement and weighting
     scCoordinatesObject <- reactiveValues(refineStart=0, refineStop=0,
-                                         weightStart=0, weightStop=0, 
-                                         weight.color = "red")
+                                          weightStart=0, weightStop=0, 
+                                          weightColor="red")
     ## now construct the scOrderObject
     scOrderObject <- reactiveValues(toClust=0, order1=0)
     observe({ if (!is.null(scInputData$gch) & !is.null(scInputData$hcg))
@@ -133,42 +133,43 @@ server <- function(input, output) {
     observeEvent(input$scPlotBrush, {
     n <- nrow(scInputData$gch)
     m <- ncol(scInputData$hcg)
-    processed.brush <- handleBrushCoordinates(input$scPlotBrush, n, m)
+    processedBrush <- handleBrushCoordinates(input$scPlotBrush, n, m)
 
     if (isolate(input$scBrushChoice) == "Weighting")
     {
         scCoordinatesObject$refineStart <- 0
         scCoordinatesObject$refineStop <- 0
-        scCoordinatesObject$weightStart <- processed.brush$first.col
-        scCoordinatesObject$weightStop <- processed.brush$last.col
-        scCoordinatesObject$weight.color <- processed.brush$weight.color
+        scCoordinatesObject$weightStart <- processedBrush$firstCol
+        scCoordinatesObject$weightStop <- processedBrush$lastCol
+        scCoordinatesObject$weightColor <- processedBrush$weightColor
         isolate({
         actionsLog$log <- c(actionsLog$log,
-                            paste("Weighting", processed.brush$weight.color,
+                            paste("Weighting", processedBrush$weightColor,
                                   "columns",
-                                  processed.brush$first.col, "to",
-                                  processed.brush$last.col))
+                                  processedBrush$firstCol, "to",
+                                  processedBrush$lastCol))
         })
     }
     if (isolate(input$scBrushChoice) == "Refinement")
     {
-        s <- processed.brush$first.row
-        f <- processed.brush$last.row
-        if (s!=f)
+        s <- processedBrush$firstRow
+        f <- processedBrush$lastRow
+        if (s != f)
         {
         scCoordinatesObject$refineStart <- s
         scCoordinatesObject$refineStop <- f
         scOrderObject$order1 <- refineOrderShiny(isolate(scOrderObject),
-                                  refine.method=isolate(input$scRefineMethod),
-                                  scCoordinatesObject)
+                                                 refineMethod=
+                                                 isolate(input$scRefineMethod),
+                                                 scCoordinatesObject)
         isolate({
             actionsLog$log <- c(actionsLog$log,
                               paste("Refining rows",
-                                    processed.brush$first.row, "to",
-                                    processed.brush$last.row))
+                                    processedBrush$firstRow, "to",
+                                    processedBrush$lastRow))
             actionsLog$log <- c(actionsLog$log,
-                              paste("Applying refinement with",
-                                    input$scRefineMethod))
+                                paste("Applying refinement with",
+                                      input$scRefineMethod))
             })
         }
     }    
@@ -185,9 +186,9 @@ server <- function(input, output) {
         else
         {
         scOrderObject$order1[scCoordinatesObject$refineStart : 
-                               scCoordinatesObject$refineStop] <-
+                             scCoordinatesObject$refineStop] <-
             scOrderObject$order1[scCoordinatesObject$refineStop : 
-                                   scCoordinatesObject$refineStart]
+                                 scCoordinatesObject$refineStart]
         actionsLog$log <- c(actionsLog$log,
                             paste("Reversing rows", 
                                   scCoordinatesObject$refineStart,
@@ -200,7 +201,7 @@ server <- function(input, output) {
         obj <- scOrderObject
         if (sum(obj$toClust) == 0) {showNotification("Select methylation
                                     data files to generate the plot.",
-                                                     type="message");NULL}
+                                    type="message"); NULL}
        else makePlot(obj, isolate(scCoordinatesObject))
     }, height=600, width=600)
 
@@ -235,8 +236,8 @@ server <- function(input, output) {
     output$scInfo <- renderText({
       paste0("Refinement selection: ", scCoordinatesObject$refineStart,
              " ", scCoordinatesObject$refineStop, "\n",
-          "Weighting selection: ", scCoordinatesObject$weightStart, " ",
-          scCoordinatesObject$weightStop)
+             "Weighting selection: ", scCoordinatesObject$weightStart, " ",
+             scCoordinatesObject$weightStop)
     })
 
     output$scProportionColorHistogram <- renderPlot({
@@ -260,7 +261,7 @@ server <- function(input, output) {
         if (input$filetype == "PDF") pdf(file)
 
          proportionColor(scOrderObject, plotHistogram=TRUE,
-                       color=toupper(input$scProportionChoice))
+                         color=toupper(input$scProportionChoice))
         dev.off()
         }
         )
@@ -270,7 +271,7 @@ server <- function(input, output) {
     },
     content=function(file){
         dat <-  proportionColor(scOrderObject, plotHistogram=FALSE,
-                               color=toupper(input$scProportionChoice))
+                                color=toupper(input$scProportionChoice))
         write.csv(dat, file=file)
         }
     )
@@ -314,9 +315,9 @@ server <- function(input, output) {
     smInputData <- reactiveValues(gch=NULL, hcg=NULL)
 
     ##alignment handling
-    observeEvent(input$run.align, {
-        ref <- read.fasta(input$ref.file$datapath)
-        fasta <- read.fasta(input$fasta.file$datapath)
+    observeEvent(input$runAlign, {
+        ref <- readFasta(input$refFile$datapath)
+        fasta <- readFasta(input$fastaFile$datapath)
 
     progress <- Progress$new()
     progress$set(message="Beginning alignment", value=0)
@@ -326,7 +327,7 @@ server <- function(input, output) {
         progress$set(value=value, message=message, detail=detail)}
 
     alignOut <- runAlign(ref, fasta, updateProgress=updateProgress,
-                          log.file=input$processing.log.name)
+                         logFile=input$processingLogName)
 
     hcgFileName <- input$hcgFileName
     gchFileName <- input$gchFileName
@@ -353,9 +354,9 @@ server <- function(input, output) {
             actionsLog$log <- c(actionsLog$log, paste("Beginning 
                                           single-molecule data analysis"))
             actionsLog$log <- c(actionsLog$log, paste("Loading GCH file:",
-                                                      input$gch.file$name))
+                                                      input$gchFile$name))
             actionsLog$log <- c(actionsLog$log, paste("Loading HCG file:",
-                                                      input$hcg.file$name))
+                                                      input$hcgFile$name))
             })
         }
 
@@ -363,14 +364,14 @@ server <- function(input, output) {
 
     ##this object keeps track of the coordinates for refinement and weighting
     smCoordinatesObject <- reactiveValues(refineStart=0, refineStop=0,
-                                      weightStart=0, 
-                                      weightStop=0, weight.color="red")
+                                          weightStart=0, 
+                                          weightStop=0, weightColor="red")
     # now construct the smOrderObject
     smOrderObject <- reactiveValues(toClust=0, order1=0)
     observe({ if (!is.null(smInputData$gch) & !is.null(smInputData$hcg))
     {
         progress <- Progress$new()
-         progress$set(message="Beginning seriation", value=0)
+        progress$set(message="Beginning seriation", value=0)
     on.exit(progress$close())
 
     updateProgress <- function(value=NULL, message=NULL, detail=NULL) {
@@ -393,39 +394,39 @@ server <- function(input, output) {
     observeEvent(input$smPlotBrush, {
         n <- nrow(smInputData$gch)
         m <- ncol(smInputData$hcg)
-        processed.brush <- handleBrushCoordinates(input$smPlotBrush, n, m)
+        processedBrush <- handleBrushCoordinates(input$smPlotBrush, n, m)
 
     if (isolate(input$smBrushChoice) == "Weighting")
     {
         smCoordinatesObject$refineStart <- 0
         smCoordinatesObject$refineStop <- 0
-        smCoordinatesObject$weightStart <- processed.brush$first.col
-        smCoordinatesObject$weightStop <- processed.brush$last.col
-        smCoordinatesObject$weight.color <- processed.brush$weight.color
+        smCoordinatesObject$weightStart <- processedBrush$firstCol
+        smCoordinatesObject$weightStop <- processedBrush$lastCol
+        smCoordinatesObject$weightColor <- processedBrush$weightColor
         isolate({
         actionsLog$log <- c(actionsLog$log,
-                            paste("Weighting", processed.brush$weight.color,
+                            paste("Weighting", processedBrush$weightColor,
                                   "columns",
-                                  processed.brush$first.col, "to",
-                                  processed.brush$last.col))
+                                  processedBrush$firstCol, "to",
+                                  processedBrush$lastCol))
          })
     }
     if (isolate(input$smBrushChoice) == "Refinement")
     {
-        s <- processed.brush$first.row
-        f <- processed.brush$last.row
+        s <- processedBrush$firstRow
+        f <- processedBrush$lastRow
         if (s!=f)
         {
         smCoordinatesObject$refineStart <- s
         smCoordinatesObject$refineStop <- f
         smOrderObject$order1 <- refineOrderShiny(isolate(smOrderObject),
-                                  refine.method=isolate(input$smRefineMethod),
+                                  refineMethod=isolate(input$smRefineMethod),
                                   smCoordinatesObject)
         isolate({
             actionsLog$log <- c(actionsLog$log,
                               paste("Refining rows",
-                                    processed.brush$first.row, "to",
-                                    processed.brush$last.row))
+                                    processedBrush$firstRow, "to",
+                                    processedBrush$lastRow))
             actionsLog$log <- c(actionsLog$log,
                               paste("Applying refinement with", 
                                     input$smRefineMethod))
@@ -447,9 +448,9 @@ server <- function(input, output) {
         else
         {
         smOrderObject$order1[smCoordinatesObject$refineStart : 
-                               smCoordinatesObject$refineStop] <-
+                             smCoordinatesObject$refineStop] <-
             smOrderObject$order1[smCoordinatesObject$refineStop : 
-                                   smCoordinatesObject$refineStart]
+                                 smCoordinatesObject$refineStart]
         actionsLog$log <- c(actionsLog$log,
                             paste("Reversing rows", 
                                   smCoordinatesObject$refineStart,
@@ -536,17 +537,18 @@ server <- function(input, output) {
         },
     content=function(file){
         dat <-  proportionColor(smOrderObject, plotHistogram=FALSE,
-                               color=toupper(input$smProportionChoice))
+                                color=toupper(input$smProportionChoice))
         write.csv(dat, file=file)
         }
     )
 
     output$smPercentC <- renderPlot({
-      obj <- smOrderObject
-      if (sum(obj$toClust) == 0)
-      {showNotification("Select methylation data files to generate the plot.",
-                        type="message");NULL}
-      else percent_C(obj, plotPercents=TRUE)
+        obj <- smOrderObject
+        if (sum(obj$toClust) == 0)
+        {showNotification("Select methylation data files to
+                          generate the plot.",
+                          type="message");NULL}
+        else percent_C(obj, plotPercents=TRUE)
     })
 
     output$smPercentCPlotDownload <- downloadHandler(
