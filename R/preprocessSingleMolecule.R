@@ -5,13 +5,13 @@
 #' @param ref A reference sequence
 #' @param fasta A list of sequences
 #' @param fastaSubset A vector of indices indicating which 
-#'                     sequences to process.
+#'                    sequences to process.
 #' @param multicoreParam A MulticoreParam object, 
 #'                       used to align sequences in parallel.
 #' @param updateProgress Used to add a progress bar to the Shiny app. 
 #'                       Should not be used otherwise.
 #' @param logFile String indicating where to save a log of the alignment 
-#'                 process. If left NULL, no log is saved.
+#'                process. If left NULL, no log is saved.
 #'
 #' @importFrom Biostrings DNAString DNA_ALPHABET reverseComplement
 #'             pairwiseAlignment score alignedPattern alignedSubject
@@ -26,8 +26,10 @@ runAlign <- function(ref, fasta, fastaSubset=(1:length(fasta)),
 
     logVector <- c("Beginning preprocessing")
 
-    if (is.function(updateProgress)) updateProgress(message="Aligning sequences", value=0.1)
-    alignmentOut <- alignSequences(fasta, refString, logVector, multicoreParam, updateProgress)
+    if (is.function(updateProgress)) updateProgress(message="Aligning 
+                                                    sequences", value=0.1)
+    alignmentOut <- alignSequences(fasta, refString, logVector,
+                                   multicoreParam, updateProgress)
 
     alignedSeq <- alignmentOut$alignedSeq
     logVector <- alignmentOut$logVector
@@ -54,15 +56,15 @@ runAlign <- function(ref, fasta, fastaSubset=(1:length(fasta)),
 
 
     if (is.null(multicoreParam))
-  {
+    {
         gCMap <- lapply(alignedSeq, mapSeq, sites=gCSites)
         cGMap <- lapply(alignedSeq, mapSeq, sites=cGSites)
-  } else {
+    } else {
     gCMap <- bplapply(alignedSeq, mapSeq, sites=gCSites, 
-                      BPPARAM = multicoreParam)
+                      BPPARAM=multicoreParam)
     cGMap <- bplapply(alignedSeq, mapSeq, sites=cGSites, 
-                      BPPARAM = multicoreParam)
-  }
+                      BPPARAM=multicoreParam)
+    }
 
     if (is.function(updateProgress)) 
         updateProgress(message="Preparing matrices", value=0.95)
@@ -75,9 +77,9 @@ runAlign <- function(ref, fasta, fastaSubset=(1:length(fasta)),
     if (is.function(updateProgress)) updateProgress(message="Done", value=1)
 
     if (!is.null(logFile))
-  {
+    {
         writeLines(logVector, con=logFile)
-  }
+    }
 
     return(list(hcg=saveCG, gch=saveGC))
 }
@@ -111,7 +113,7 @@ alignSequences <- function(fasta, refString, logVector, multicoreParam=NULL,
                                         function(i) 
                                         seqAlign(fasta[[i]], refString, 
                                                  substitutionMatrix=penaltyMat)
-                                        ,BPPARAM=multicoreParam)
+                                        , BPPARAM=multicoreParam)
     useSeqs <- sapply(seqAlignOut, function(i) i$u)
     scores <- sapply(seqAlignOut, function (i) i$score)
     maxAligns <- sapply(seqAlignOut, function (i) i$maxAlign)
@@ -216,11 +218,11 @@ mapSeq <- function(i, sites) {
   {
         if (idx == 1) editSeq[1:counts[idx]] <- "."
         else
-      {
+        {
             first <- sum(counts[1:(idx-1)]) + 1
             last <- first + counts[idx] - 1
             editSeq[first:last] <- "."
-      }
+        }
   }
 
     return(editSeq)
@@ -228,7 +230,7 @@ mapSeq <- function(i, sites) {
 
 
 ## we want to be able to get all contiguous substrings of a certain string... 
-##in particular one of the editseq strings used above
+## in particular one of the editseq strings used above
 
 ## i want to return a table
 getContigSubstrings <- function(s)
