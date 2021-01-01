@@ -3,8 +3,8 @@
 #' Orders methylation data using a given seriation method. This function 
 #' can also perform a weighted seriation if the method is set to "PCA".
 #'
-#' @param input.GCH The GCH input data.
-#' @param input.HCG The HCG input data.
+#' @param inputGCH The GCH input data.
+#' @param inputHCG The HCG input data.
 #' @param Method Indicates the seriation method to use. 
 #'               The default option is "PCA", which orders the data using 
 #'               the first principal component. Any seriation method provided 
@@ -109,7 +109,7 @@ initialOrder <- function(inputGCH, inputHCG, Method="PCA", weightStart=NULL,
 
         }
     }
-    orderObject <- list(toClust = toClust, order1 = order1)
+    orderObject <- list(toClust=toClust, order1=order1)
     if (Method != "PCA") orderObject$distMat <- distMat
     if (weighted) orderObject$weights <- weightVector
     if (is.function(updateProgress)) updateProgress(message="Done", value=1)
