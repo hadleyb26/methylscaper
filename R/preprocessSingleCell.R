@@ -22,7 +22,7 @@ prepSC <- function(gcSeqData, cgSeqData, startPos, endPos,
     if (is.function(updateProgress))
         updateProgress(message="Filtering CG data", value=0.1)
     cgSeqSub <- lapply(cgSeqData, function(x) {
-    QQ <- x[order(x$pos),]
+    QQ <- x[order(x$pos), ]
     QQ=subset(QQ, pos >= startPos & pos <= endPos)
     return(QQ)
   })
@@ -30,7 +30,7 @@ prepSC <- function(gcSeqData, cgSeqData, startPos, endPos,
     if (is.function(updateProgress))
         updateProgress(message="Filtering GC data", value=0.5)
     gcSeqSub <- lapply(gcSeqData, function(x) {
-    QQ <- x[order(x$pos),]
+    QQ <- x[order(x$pos), ]
     QQ=subset(QQ, pos >= startPos & pos <= endPos)
     return(QQ)
   })
@@ -38,28 +38,28 @@ prepSC <- function(gcSeqData, cgSeqData, startPos, endPos,
     allCgSites <- unique(do.call(c, cgSeqSub))
     allGcSites <- unique(do.call(c, gcSeqSub))
 
-    useseq <- intersect(which(sapply(cgSeqSub, function(x) nrow(x)) > 0 ),
+    useSeq <- intersect(which(sapply(cgSeqSub, function(x) nrow(x)) > 0 ),
                         which(sapply(gcSeqSub, function(x) nrow(x)) > 0 ))
-    if (length(useseq) == 0)
+    if (length(useSeq) == 0)
     {
     stop("No valid sites in designated range. 
          Try different start and end positions.")
     }
 
-    cgSeqSub <- cgSeqSub[useseq]
-    gcSeqSub <- gcSeqSub[useseq]
+    cgSeqSub <- cgSeqSub[useSeq]
+    gcSeqSub <- gcSeqSub[useSeq]
 
 
     if (is.function(updateProgress))
         updateProgress(message="Mapping CG data", value=0.75)
-    cgOutseq <- lapply(cgSeqSub, function(x) mapSC(x, startPos, endPos))
-    hcg <- data.matrix(do.call(rbind, cgOutseq))
+    cgOutSeq <- lapply(cgSeqSub, function(x) mapSC(x, startPos, endPos))
+    hcg <- data.matrix(do.call(rbind, cgOutSeq))
     rownames(hcg) <- as.character(1:nrow(hcg))
 
     if (is.function(updateProgress))
         updateProgress(message="Mapping GC data", value=0.9)
-    gcOutseq <- lapply(gcSeqSub, function(x) mapSC(x, startPos, endPos))
-    gch <- data.matrix(do.call(rbind, gcOutseq))
+    gcOutSeq <- lapply(gcSeqSub, function(x) mapSC(x, startPos, endPos))
+    gch <- data.matrix(do.call(rbind, gcOutSeq))
     rownames(gch) <- as.character(1:nrow(gch))
 
     list(gch=gch, hcg=hcg)
@@ -71,8 +71,8 @@ mapSC <- function(IN.seq, startPos, endPos) {
     fill1 <- seq(startPos, endPos) - startPos + 1
     someMethyl <- which(IN.seq$rate > 0)
     noMethyl <- which(IN.seq$rate <= 0)
-    fill1[fill1 %in% IN.seq[someMethyl,]$pos] <- 2
-    fill1[fill1 %in% IN.seq[noMethyl,]$pos] <- -2
+    fill1[fill1 %in% IN.seq[someMethyl, ]$pos] <- 2
+    fill1[fill1 %in% IN.seq[noMethyl, ]$pos] <- -2
     fill1[abs(fill1) != 2] <- "."
     tail(sort(table(fill1)))
 
