@@ -22,15 +22,15 @@
 #' @importFrom Rfast Dist
 #' @export
 initialOrder <- function(inputGCH, inputHCG, Method="PCA", weightStart=NULL, 
-                         weightEnd=NULL,weightFeature="red", 
+                         weightEnd=NULL, weightFeature="red", 
                          updateProgress=NULL){
 
     ## File checks:
     if (nrow(inputHCG) != nrow(inputGCH)) 
        {stop("Input files have different numbers of rows.")}
 
-    if (all(rownames(inputGCH) == inputGCH[,1])) inputGCH <- inputGCH[,-1]
-    if (all(rownames(inputHCG) == inputHCG[,1])) inputHCG <- inputHCG[,-1]
+    if (all(rownames(inputGCH) == inputGCH[, 1])) inputGCH <- inputGCH[, -1]
+    if (all(rownames(inputHCG) == inputHCG[, 1])) inputHCG <- inputHCG[, -1]
 
 
     if (is.function(updateProgress)) 
@@ -52,13 +52,13 @@ initialOrder <- function(inputGCH, inputHCG, Method="PCA", weightStart=NULL,
         weighted=TRUE
         if (weightFeature == "red") {
             FEATURE=3
-            weightVector <- apply(inputHCG[,weightStart:weightEnd], 1, 
+            weightVector <- apply(inputHCG[, weightStart:weightEnd], 1, 
                                   function(x) 
                 sum(x == FEATURE))
         }
         if (weightFeature == "yellow") {
             FEATURE=-3
-            weightVector <- apply(inputGCH[,weightStart:weightEnd], 1, 
+            weightVector <- apply(inputGCH[, weightStart:weightEnd], 1, 
                                   function(x) 
                 sum(x == FEATURE))
         }
@@ -78,13 +78,13 @@ initialOrder <- function(inputGCH, inputHCG, Method="PCA", weightStart=NULL,
 
             colCentered <- apply(toClustWeighted, 2, function(x) x - mean(x))
             try1 <- svd(colCentered, nu=1, nv=0)
-            order1 <- order(try1$u[,1])
+            order1 <- order(try1$u[, 1])
         }
         else
         {
             colCentered <- apply(toClust, 2, function(x) x - mean(x))
             try1 <- svd(colCentered, nu=1, nv=0)
-            order1 <- order(try1$u[,1])
+            order1 <- order(try1$u[, 1])
         }
 
     } 
