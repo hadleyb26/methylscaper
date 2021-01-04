@@ -86,29 +86,15 @@ ui <- navbarPage("methylscaper",
                                                                    c("PNG", 
                                                                      "SVG", 
                                                                      "PDF")),
-                                                                   download
-                                                                   Button("sc_
-                                                                          plot_
-                                                                          down"
-                                                                          , 
-                                                                          label
-                                                                          ="Dow
-                                                                          nload
-                                                                          the 
-                                                                          plot"
-                                                                          ),
-                                                                   download
-                                                                   Button("sc_
-                                                                          log_
-                                                                          down"
-                                                                          , 
-                                                                          label
-                                                                          ="Dow
-                                                                          nload 
-                                                                          chang
-                                                                          es 
-                                                                          log")
-                                                                )
+                                                            downloadButton
+                                                            ("sc_plot_down", 
+                                                            label="Download
+                                                            the plot"),
+                                                            downloadButton
+                                                            ("sc_log_down", 
+                                                            label = "Download 
+                                                            changes log")
+                                                            )
 
                                                   )
                                                 )
@@ -228,8 +214,7 @@ ui <- navbarPage("methylscaper",
                                                                     c("PNG", 
                                                                       "SVG", 
                                                                       "PDF")),
-                                                                   download
-                                                                   Button("sm_
+                                                                   downloadButton("sm_
                                                                           plot_
                                                                           down"
                                                                           , 
@@ -239,8 +224,7 @@ ui <- navbarPage("methylscaper",
                                                                           the 
                                                                           plot"
                                                                           ),
-                                                                   download
-                                                                   Button("sm_
+                                                                   downloadButton("sm_
                                                                           log_
                                                                           down"
                                                                           , 
