@@ -11,6 +11,7 @@
 #' 
 #' @return The new complete ordering with the refinement applied.
 #' @export
+
 refineFunction <- function(orderObject, refineStart, refineEnd, 
                            Method="HC_average") {
   
@@ -19,14 +20,14 @@ refineFunction <- function(orderObject, refineStart, refineEnd,
     toRefineOrder <- order1[refineStart:refineEnd]
   
   
-    toRefineClust <- toClust[toRefineOrder,]
+    toRefineClust <- toClust[toRefineOrder, ]
   
     if (Method == "PCA") {
     colCentered <- apply(toRefineClust, 2, function(x) x - mean(x))
     try1 <- svd(colCentered, nu=1, nv=0)
     orderNew <- order(try1$u[,1])
     } else { # Methods available for refining are: ARSA, HC_complete, 
-           # HC_average, HC_ward.
+             ## HC_average, HC_ward.
     ## Shouldn't need to recalculate the distance each time!!
     if (is.null(orderObject$distMat)) distMat <- dist(toRefineClust,
                                                       method="euclidean")
@@ -57,6 +58,7 @@ refineFunction <- function(orderObject, refineStart, refineEnd,
 #' 
 #' @return The new complete ordering, with the reversal applied.
 #' @export
+
 forceReverse <- function(orderObject, reverseStart=1, 
                          reverseEnd=length(orderObject$order1))
 {
