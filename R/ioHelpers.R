@@ -8,12 +8,12 @@ readMethylationData <- function(filepath, ...)
 {
     if (grepl(pattern=".tsv", x=filepath, fixed=TRUE) |
         grepl(pattern=".txt", x=filepath, fixed=TRUE))
-        read.table(filepath, header=T, row.names=1,
-                   stringsAsFactors=F, quote="", sep="\t",
+        read.table(filepath, header=TRUE, row.names=1,
+                   stringsAsFactors=FALSE, quote="", sep="\t",
                    comment.char="", ...)
     else
-        read.table(filepath, header=T, row.names=1,
-                   stringsAsFactors=F, quote="", sep=", ",
+        read.table(filepath, header=TRUE, row.names=1,
+                   stringsAsFactors=FALSE, quote="", sep=", ",
                    comment.char="", ...)
 }
 
@@ -28,14 +28,16 @@ readMethylationData <- function(filepath, ...)
 writeMethylationData <- function(dat, filepath, ...)
 {
     if (grepl(pattern=".csv", x=filepath, fixed=TRUE))
-        write.table(dat, file=filepath, quote=F, row.names=F, sep=", ", ...)
+        write.table(dat, file=filepath, quote=FALSE, row.names=FALSE, 
+                    sep=", ", ...)
     else if (grepl(pattern=".tsv", x=filepath, fixed=TRUE) |
-            grepl(pattern=".txt", x=filepath, fixed=TRUE))
-            write.table(dat, file=filepath, quote=F, row.names=F, 
+             grepl(pattern=".txt", x=filepath, fixed=TRUE))
+             write.table(dat, file=filepath, quote=FALSE, row.names=FALSE, 
                          sep="\t", ...)
     else # if the file isn't csv, tsv, or txt, we force it to be csv
     {
         filepath <- paste0(filepath, ".csv")
-        write.table(dat, file=filepath, quote=F, row.names=F, sep=", ", ...)
+        write.table(dat, file=filepath, quote=FALSE, row.names=FALSE, 
+                    sep=", ", ...)
     }
 }

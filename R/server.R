@@ -245,7 +245,7 @@ server <- function(input, output) {
     if (sum(obj$toClust) == 0)
     {showNotification("Select methylation data files to generate the plot.",
                       type="message");NULL}
-    else proportionColor(obj, plotHistogram=TRUE,
+    else proportion_color(obj, plotHistogram=TRUE,
                          color=toupper(input$scProportionChoice))
     })
 
@@ -260,7 +260,7 @@ server <- function(input, output) {
         if (input$filetype == "SVG") svglite::svglite(file)
         if (input$filetype == "PDF") pdf(file)
 
-         proportionColor(scOrderObject, plotHistogram=TRUE,
+         proportion_color(scOrderObject, plotHistogram=TRUE,
                          color=toupper(input$scProportionChoice))
         dev.off()
         }
@@ -270,7 +270,7 @@ server <- function(input, output) {
         return("proportion_data.csv")
     },
     content=function(file){
-        dat <-  proportionColor(scOrderObject, plotHistogram=FALSE,
+        dat <-  proportion_color(scOrderObject, plotHistogram=FALSE,
                                 color=toupper(input$scProportionChoice))
         write.csv(dat, file=file)
         }
@@ -511,7 +511,7 @@ server <- function(input, output) {
         if (sum(obj$toClust) == 0)
         {showNotification("Select methylation data files to generate the plot."
                           , type="message");NULL}
-        else proportionColor(obj, plotHistogram=TRUE, 
+        else proportion_color(obj, plotHistogram=TRUE, 
                              color=toupper(input$smProportionChoice))
      })
 
@@ -526,7 +526,7 @@ server <- function(input, output) {
         if (input$filetype == "SVG") svglite::svglite(file)
         if (input$filetype == "PDF") pdf(file)
 
-        proportionColor(smOrderObject, plotHistogram=TRUE,
+        proportion_color(smOrderObject, plotHistogram=TRUE,
                        color=toupper(input$smProportionChoice))
         dev.off()
         }
@@ -536,7 +536,7 @@ server <- function(input, output) {
         return("proportion_data.csv")
         },
     content=function(file){
-        dat <-  proportionColor(smOrderObject, plotHistogram=FALSE,
+        dat <-  proportion_color(smOrderObject, plotHistogram=FALSE,
                                 color=toupper(input$smProportionChoice))
         write.csv(dat, file=file)
         }

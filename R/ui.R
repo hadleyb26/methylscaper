@@ -214,7 +214,7 @@ ui <- navbarPage("methylscaper",
                                                                     c("PNG", 
                                                                       "SVG", 
                                                                       "PDF")),
-                                                                   downloadButton("sm_
+                                                              downloadButton("sm_
                                                                           plot_
                                                                           down"
                                                                           , 
@@ -224,17 +224,12 @@ ui <- navbarPage("methylscaper",
                                                                           the 
                                                                           plot"
                                                                           ),
-                                                                   downloadButton("sm_
-                                                                          log_
-                                                                          down"
-                                                                          , 
-                                                                          label
-                                                                          ="Dow
-                                                                          nload
-                                                                          chang
-                                                                          es 
-                                                                          log")
-                                                                   )
+                                                              downloadButton
+                                                              ("sm_log_down", 
+                                                                label="Downl
+                                                                oad changes
+                                                                log")
+                                                              )
 
                                                    )
                                                  )

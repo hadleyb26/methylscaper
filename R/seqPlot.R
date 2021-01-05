@@ -28,7 +28,7 @@
 ##' @export
 plotSequence <- function(orderObject, plotFAST=TRUE,
                          blankWidth=75, Title="",
-                         drawLine=T, drawKey=T) {
+                         drawLine=TRUE, drawKey=TRUE) {
     ## Start with yellow at top as the default:
     toClust <- orderObject$toClust
     order1 <- orderObject$order1
@@ -65,10 +65,10 @@ plotSequence <- function(orderObject, plotFAST=TRUE,
 
     ## Plotting:
     par(xpd=F, mar=c(2, 2, 2, 1), mgp=c(0, 0.5, 0))
-    image(t(toPlotFix), col=mycols, axes=F, breaks=VALS,
+    image(t(toPlotFix), col=mycols, axes=FALSE, breaks=VALS,
             main=Title, useRaster=plotFAST, ylim=c(0, 1.028))
     axis(3, at=sitesScale, labels=rep("", length(sitesScale)),
-           tick=T, line=.1, col="white", cex=1, lwd=1,
+           tick=TRUE, line=.1, col="white", cex=1, lwd=1,
            col.ticks="black", tck=.02)
     ## Where to put the axes:
     plot1 <- round(ncol(inputHCGFix)/ncol(toPlotFix), 2) # convert these 

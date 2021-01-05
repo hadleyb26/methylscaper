@@ -7,7 +7,7 @@
 #' 
 #' @importFrom graphics hist lines plot points
 #' @export
-percentC <- function(orderObject, plotPercents=FALSE, ...){
+percent_C <- function(orderObject, plotPercents=FALSE, ...){
     dat <- orderObject$toClust
     redSites <- which(dat[1, 1:ncol(dat)] == 4 |
                       dat[1, 1:ncol(dat)] == 1)
@@ -51,7 +51,7 @@ percentC <- function(orderObject, plotPercents=FALSE, ...){
 #'
 #' @importFrom graphics hist
 #' @export
-proportionColor <- function(orderObject, color="YELLOW", 
+proportion_color <- function(orderObject, color="YELLOW", 
                             plotHistogram=FALSE, ...){
     colorIndicator <- ifelse(color == "YELLOW", -1, 1)
     proportion <- apply(orderObject$toClust, 1, function(x){
@@ -59,7 +59,7 @@ proportionColor <- function(orderObject, color="YELLOW",
   })
     if (plotHistogram) {
     opar <- par(lwd=4)
-    h <- hist(proportion, plot=F, breaks=15)
+    h <- hist(proportion, plot=FALSE, breaks=15)
     plot(h, xlim=c(0, 1), border=ifelse(color == "YELLOW", "gold2", "brown1"),
          col="gray75",
          lwd=2, ...)
@@ -80,7 +80,7 @@ proportionColor <- function(orderObject, color="YELLOW",
 #' @importFrom stats filter
 #' @importFrom graphics legend
 #' @export
-averageStatus <- function(orderObject, windowLength=1, plotAverages=FALSE, ...)
+average_status <- function(orderObject, windowLength=1, plotAverages=FALSE, ...)
 {
     gchNum <- orderObject$toClust[,1:(ncol(orderObject$toClust) / 2)]
     hcgNum <- orderObject$toClust[,(ncol(orderObject$toClust) / 2 + 1)
