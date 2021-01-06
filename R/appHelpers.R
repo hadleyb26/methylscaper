@@ -1,5 +1,5 @@
 buildOrderObjectShiny <- function(gch, hcg, method,
-                                  coordinatesObject, updateProgress)
+    coordinatesObject, updateProgress)
 {
     if (coordinatesObject$weightStart == 0 | 
         coordinatesObject$weightStop == 0)
@@ -7,18 +7,17 @@ buildOrderObjectShiny <- function(gch, hcg, method,
         orderObject <- initialOrder(gch, hcg, Method=method)
     }
     else orderObject <- initialOrder(gch, hcg, Method=method,
-                                     weightStart=coordinatesObject$weightStart,
-                                     weightEnd=coordinatesObject$weightStop,
-                                     weightFeature=
-                                         coordinatesObject$weightColor,
-                                     updateProgress=updateProgress)
+        weightStart=coordinatesObject$weightStart,
+        weightEnd=coordinatesObject$weightStop,
+        weightFeature=coordinatesObject$weightColor,
+        updateProgress=updateProgress)
     return(orderObject)
 }
 
 refineOrderShiny <- function(orderObject, refineMethod, coordinatesObject)
 {
     refineFunction(orderObject, coordinatesObject$refineStart, 
-                   coordinatesObject$refineStop, Method=refineMethod)
+        coordinatesObject$refineStop, Method=refineMethod)
 }
 
 makePlot <- function(orderObject, coordinatesObject, drawLines=TRUE, ...)

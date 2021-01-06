@@ -54,13 +54,13 @@ prepSC <- function(gcSeqData, cgSeqData, startPos, endPos,
         updateProgress(message="Mapping CG data", value=0.75)
     cgOutSeq <- lapply(cgSeqSub, function(x) mapSC(x, startPos, endPos))
     hcg <- data.matrix(do.call(rbind, cgOutSeq))
-    rownames(hcg) <- as.character(1:nrow(hcg))
+    rownames(hcg) <- as.character(seq_len(nrow(hcg)))
 
     if (is.function(updateProgress))
         updateProgress(message="Mapping GC data", value=0.9)
     gcOutSeq <- lapply(gcSeqSub, function(x) mapSC(x, startPos, endPos))
     gch <- data.matrix(do.call(rbind, gcOutSeq))
-    rownames(gch) <- as.character(1:nrow(gch))
+    rownames(gch) <- as.character(seq_len(nrow(gch)))
 
     list(gch=gch, hcg=hcg)
 
@@ -80,7 +80,7 @@ mapSC <- function(IN.seq, startPos, endPos) {
     editseq=fill1
     sitesTemp <- c(0, sites, max(sites)+1)
 
-    for (j in 1:(length(sitesTemp)-1)) {
+    for (j in seq_len((length(sitesTemp)-1))) {
         toFill <- seq(sitesTemp[j]+1, (sitesTemp[j+1]-1))
         s1 <- editseq[pmax(1, sitesTemp[j])]
         s2 <- editseq[pmin(length(editseq), sitesTemp[j+1])]
