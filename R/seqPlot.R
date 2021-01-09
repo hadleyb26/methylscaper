@@ -27,12 +27,12 @@
 ##' @importFrom graphics abline image par axis segments
 ##' @export
 plotSequence <- function(orderObject, plotFAST=TRUE,
-                         blankWidth=75, Title="",
-                         drawLine=TRUE, drawKey=TRUE) {
+                            blankWidth=75, Title="",
+                            drawLine=TRUE, drawKey=TRUE) {
     ## Start with yellow at top as the default:
     toClust <- orderObject$toClust
     order1 <- orderObject$order1
-    inputGCH <- toClust[, 1:(ncol(toClust) / 2)]
+    inputGCH <- toClust[, seq_len((ncol(toClust)) / 2)]
     inputHCG <- toClust[, (ncol(toClust) / 2 + 1):ncol(toClust)]
 
     mycols <- c("darkgoldenrod2", "yellow", "gray62",  "black", "gray80",
@@ -56,11 +56,11 @@ plotSequence <- function(orderObject, plotFAST=TRUE,
 
     ## Add some rows in order to add a legend:
     if(drawKey == TRUE) {
-           blankROW <- matrix(rep(0, ncol(toPlotFix)*12), nrow=12,
-                              ncol=ncol(toPlotFix))
-           blankROW[5:8,1:147] <- 2
-           blankROW[5:8,((1:147)+(ncol(inputHCGFix) + ncol(blankCOLS)))] <- 2
-           toPlotFix <- rbind(blankROW, toPlotFix)
+            blankROW <- matrix(rep(0, ncol(toPlotFix)*12), nrow=12,
+                                ncol=ncol(toPlotFix))
+            blankROW[5:8,seq_len(147)] <- 2
+            blankROW[5:8,((seq_len(147))+(ncol(inputHCGFix) + ncol(blankCOLS)))] <- 2
+            toPlotFix <- rbind(blankROW, toPlotFix)
     }
 
     ## Plotting:
@@ -68,8 +68,8 @@ plotSequence <- function(orderObject, plotFAST=TRUE,
     image(t(toPlotFix), col=mycols, axes=FALSE, breaks=VALS,
             main=Title, useRaster=plotFAST, ylim=c(0, 1.028))
     axis(3, at=sitesScale, labels=rep("", length(sitesScale)),
-           tick=TRUE, line=.1, col="white", cex=1, lwd=1,
-           col.ticks="black", tck=.02)
+            tick=TRUE, line=.1, col="white", cex=1, lwd=1,
+            col.ticks="black", tck=.02)
     ## Where to put the axes:
     plot1 <- round(ncol(inputHCGFix)/ncol(toPlotFix), 2) # convert these 
     ## back to the site number so we can do refinement
@@ -81,16 +81,16 @@ plotSequence <- function(orderObject, plotFAST=TRUE,
 
     toLabel <- rev(seq(1, length(order1), by=round(length(order1)/8)))
     if (!(length(order1) %in% toLabel)) toLabel <- c(length(order1), 
-                                                     toLabel)
+                                                    toLabel)
     yAxisStartingPoint <- ifelse(drawKey, nrow(blankROW) / nrow(toPlotFix),
                                     0)
     axis(2, at=seq(yAxisStartingPoint, 1, length.out=length(toLabel)),
-         labels=toLabel)
+            labels=toLabel)
 
     toLabel <- round(c(seq(1, ncol(inputHCGFix), length.out=5),
-                       seq(1, ncol(inputGCHFix), length.out=5)))
-    axis(1, at=seq(0,plot1, length.out=5), labels=toLabel[1:5])
-    axis(1, at=seq(plot2,1, length.out=5), labels=toLabel[1:5])
+                        seq(1, ncol(inputGCHFix), length.out=5)))
+    axis(1, at=seq(0,plot1, length.out=5), labels=toLabel[seq_len(5)])
+    axis(1, at=seq(plot2,1, length.out=5), labels=toLabel[seq_len(5)])
 
     ## Just drawing a straight DNA line:
     if (drawLine == TRUE) {
