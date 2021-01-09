@@ -7,7 +7,8 @@
 writeMethylationData(dat, filepath, ...)
 }
 \arguments{
-\item{dat}{A methylation data matrix, output from the \code{runAlign} function.}
+\item{dat}{A methylation data matrix, output from the
+    \code{runAlign} function.}
 
 \item{filepath}{A string of the file path.}
 

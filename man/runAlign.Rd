@@ -20,11 +20,14 @@ runAlign(
 
 \item{fasta.subset}{A vector of indices indicating which sequences to process.}
 
-\item{multicoreParam}{A MulticoreParam object, used to align sequences in parallel.}
+\item{multicoreParam}{A MulticoreParam object, used to 
+    align sequences in parallel.}
 
-\item{updateProgress}{Used to add a progress bar to the Shiny app. Should not be used otherwise.}
+\item{updateProgress}{Used to add a progress bar to the Shiny app. 
+    Should not be used otherwise.}
 
-\item{log.file}{String indicating where to save a log of the alignment process. If left NULL, no log is saved.}
+\item{log.file}{String indicating where to save a log of the alignment process. 
+    If left NULL, no log is saved.}
 }
 \description{
 Runs the preprocessing methods for single-molecule data on sequences.

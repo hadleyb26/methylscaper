@@ -14,7 +14,8 @@ plotSequence(
 )
 }
 \arguments{
-\item{orderObject}{An object of class \code{orderObject} that contains the processed data and the ordering.}
+\item{orderObject}{An object of class \code{orderObject} 
+    that contains the processed data and the ordering.}
 
 \item{plotFAST}{Logical, setting to FALSE will generate a higher quality plot.}
 
@@ -22,9 +23,11 @@ plotSequence(
 
 \item{Title}{The title of the plot.}
 
-\item{drawLine}{Logical, indicates whether to draw a line above the CG/GC sites.}
+\item{drawLine}{Logical, indicates whether to 
+    draw a line above the CG/GC sites.}
 
-\item{drawKey}{Logical, indicates whether to draw a key representing a 147bp nucleosome at the bottom of the plot.}
+\item{drawKey}{Logical, indicates whether to draw a keymrepresenting a 147bp
+    nucleosome at the bottom of the plot.}
 }
 \description{
 Generates an ordered sequence plot of methylation data.
