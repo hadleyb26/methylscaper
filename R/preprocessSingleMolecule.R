@@ -18,8 +18,8 @@
 #' @importFrom seqinr c2s s2c read.fasta
 #' @importFrom BiocParallel bplapply
 #' @export
-runAlign <- function(ref, fasta, fastaSubset=(1:length(fasta)),
-                     multicoreParam=NULL, updateProgress=NULL, logFile=NULL)
+runAlign <- function(ref, fasta, fastaSubset=(seq_len(fasta)),
+    multicoreParam=NULL, updateProgress=NULL, logFile=NULL)
 {
     fasta <- fasta[fastaSubset]
     refString <- DNAString(toupper(c2s(ref[[1]])))
@@ -27,9 +27,9 @@ runAlign <- function(ref, fasta, fastaSubset=(1:length(fasta)),
     logVector <- c("Beginning preprocessing")
 
     if (is.function(updateProgress)) updateProgress(message="Aligning 
-                                                    sequences", value=0.1)
+        sequences", value=0.1)
     alignmentOut <- alignSequences(fasta, refString, logVector,
-                                   multicoreParam, updateProgress)
+        multicoreParam, updateProgress)
 
     alignedSeq <- alignmentOut$alignedSeq
     logVector <- alignmentOut$logVector
@@ -42,11 +42,10 @@ runAlign <- function(ref, fasta, fastaSubset=(1:length(fasta)),
     cGSites <- gregexpr("CG",c2s(refString),fixed=TRUE)[[1]]
 
     logVector <- c(logVector, 
-                   paste("Throwing out", 
-                         length(which(s2c(paste(refString))[gCSites+1] == "G")) 
-                         +
-                         length(which(s2c(paste(refString))[cGSites-1] == "G"))
-                         , "GCG sites"))
+        paste("Throwing out", 
+            length(which(s2c(paste(refString))[gCSites+1] == "G")) +
+            length(which(s2c(paste(refString))[cGSites-1] == "G"))
+            , "GCG sites"))
 
     cGSites <- cGSites[which(s2c(paste(refString))[cGSites-1] != "G")]
     gCSites <- gCSites[which(s2c(paste(refString))[gCSites+1] != "G")]
@@ -61,9 +60,9 @@ runAlign <- function(ref, fasta, fastaSubset=(1:length(fasta)),
         cGMap <- lapply(alignedSeq, mapSeq, sites=cGSites)
     } else {
     gCMap <- bplapply(alignedSeq, mapSeq, sites=gCSites, 
-                      BPPARAM=multicoreParam)
+        BPPARAM=multicoreParam)
     cGMap <- bplapply(alignedSeq, mapSeq, sites=cGSites, 
-                      BPPARAM=multicoreParam)
+        BPPARAM=multicoreParam)
     }
 
     if (is.function(updateProgress)) 
@@ -91,30 +90,32 @@ runAlign <- function(ref, fasta, fastaSubset=(1:length(fasta)),
 ## this needs the logVector, multicoreParam, and updateProgress 
 ## so that we can continue keeping track of these things
 alignSequences <- function(fasta, refString, logVector, multicoreParam=NULL,
-                           updateProgress=NULL)
+    updateProgress=NULL)
 {
     ## this creates the substitution matrix for use in alignment
-    penaltyMat <- matrix(0,length(DNA_ALPHABET[1:4]), 
-                         length(DNA_ALPHABET[1:4]))
-    penaltyMat[1:4, 1:4] <- c(1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1)
+    penaltyMat <- matrix(0,length(DNA_ALPHABET[seq_len(4)]), 
+        length(DNA_ALPHABET[seq_len(4)]))
+    penaltyMat[seq_len(4), seq_len(4)] <- c(1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1,
+        0, 0, 1, 0, 1)
     penaltyMat[penaltyMat == 0] <- -5
     penaltyMat <- cbind(penaltyMat, c(0, 0, 0, 0))
     penaltyMat <- rbind(penaltyMat, c(0, 0, 0, 0, 1))
-    rownames(penaltyMat) <- colnames(penaltyMat) <- c(DNA_ALPHABET[1:4], "N")
+    rownames(penaltyMat) <- colnames(penaltyMat) <- 
+        c(DNA_ALPHABET[seq_len(4)], "N")
 
-    if (is.null(multicoreParam)) seqAlignOut <- lapply(1:length(fasta), 
-                                                       function(i) {
+    if (is.null(multicoreParam)) seqAlignOut <- lapply(seq_len(fasta), 
+        function(i) {
 
         if (is.function(updateProgress)) 
             updateProgress(message="Aligning seqences",
-                           detail=paste(i, "/", length(fasta)),
-                           value=(0.1+ 0.65/length(fasta) * i))
+                detail=paste(i, "/", length(fasta)),
+                value=(0.1+ 0.65/length(fasta) * i))
         seqAlign(fasta[[i]], refString, substitutionMatrix=penaltyMat)
         }) else seqAlignOut <- bplapply(1:length(fasta),
-                                        function(i) 
-                                        seqAlign(fasta[[i]], refString, 
-                                                 substitutionMatrix=penaltyMat)
-                                        , BPPARAM=multicoreParam)
+            function(i) 
+                seqAlign(fasta[[i]], refString, 
+                    substitutionMatrix=penaltyMat)
+                , BPPARAM=multicoreParam)
     useSeqs <- sapply(seqAlignOut, function(i) i$u)
     scores <- sapply(seqAlignOut, function (i) i$score)
     maxAligns <- sapply(seqAlignOut, function (i) i$maxAlign)
@@ -140,8 +141,7 @@ alignSequences <- function(fasta, refString, logVector, multicoreParam=NULL,
         SEQ2
     })
     logVector <- c(logVector, paste("Throwing out", 
-                                    length(useSeqs) - length(goodAlignmentIdxs)
-                                    , "alignments"))
+        length(useSeqs) - length(goodAlignmentIdxs), "alignments"))
 
     names(alignedSeq) <- names(fasta)[goodAlignmentIdxs]
     return(list(alignedSeq=alignedSeq, logVector=logVector))

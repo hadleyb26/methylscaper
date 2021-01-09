@@ -24,15 +24,16 @@ makePlot <- function(orderObject, coordinatesObject, drawLines=TRUE, ...)
 {
 
     plotSequence(orderObject, ...)
-    if (coordinatesObject$refineStart != 0 & coordinatesObject$refineStop != 0)
+    if (coordinatesObject$refineStart != 0 & 
+        coordinatesObject$refineStop != 0)
     ## Draw the horizontal lines
     {
         n <- nrow(orderObject$toClust)
-        ymin <- (((n:1)[coordinatesObject$refineStart] / 
-                    n * (n - 10)) + 10) / n 
+        ymin <- (((n:1)[coordinatesObject$refineStart] 
+            / n * (n - 10)) + 10) / n 
         ## Convert back to raw coordinates
-        ymax <- (((n:1)[coordinatesObject$refineStop] / 
-                    n * (n - 10)) + 10) / n
+        ymax <- (((n:1)[coordinatesObject$refineStop] 
+            / n * (n - 10)) + 10) / n
         if (drawLines)
         {
             abline(b=0, a=ymax, col="blue", lwd=2.5)
@@ -40,7 +41,8 @@ makePlot <- function(orderObject, coordinatesObject, drawLines=TRUE, ...)
         }
 
     }
-    if (coordinatesObject$weightStart != 0 & coordinatesObject$weightStop != 0) 
+    if (coordinatesObject$weightStart != 0 & 
+        coordinatesObject$weightStop != 0) 
     ## Draw the vertical lines
     {
         m <- ncol(orderObject$toClust) / 2 # Convert back to raw coordinates
@@ -111,10 +113,10 @@ handleBrushCoordinates <- function(plotBrush, n, m){
     if (lastCol >= (m - 2)) lastCol <- m
 
     return(list(firstRow=ifelse(firstRow == 0, 0, (n:1)[firstRow]),
-                lastRow=ifelse(lastRow == 0, 0, (n:1)[lastRow]),
-                firstCol=firstCol,
-                lastCol=lastCol,
-                weightColor=weightColor))
+        lastRow=ifelse(lastRow == 0, 0, (n:1)[lastRow]),
+        firstCol=firstCol,
+        lastCol=lastCol,
+        weightColor=weightColor))
 
 }
 

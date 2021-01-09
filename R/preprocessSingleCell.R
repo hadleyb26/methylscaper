@@ -6,18 +6,18 @@
 #' explanation of each parameter.
 #'
 #' @param gcSeqData GC accessibility data, in the form of a list of 
-#'                    dataframes.
+#'                  dataframes.
 #' @param cgSeqData CG methylation data, in the form of a list of dataframes.
 #' @param startPos The index of the first position to include in 
-#'                 the visualization.
+#'                  the visualization.
 #' @param endPos The index of the final position to include in the 
-#'               visualization.
+#'                  visualization.
 #' @param updateProgress A function for generating progress bars in the 
-#'                       Shiny app. Should be left NULL otherwise.
+#'                          Shiny app. Should be left NULL otherwise.
 #' @importFrom utils tail
 #' @export
 prepSC <- function(gcSeqData, cgSeqData, startPos, endPos,
-                   updateProgress=NULL)
+                    updateProgress=NULL)
 {
     if (is.function(updateProgress))
         updateProgress(message="Filtering CG data", value=0.1)
@@ -25,7 +25,7 @@ prepSC <- function(gcSeqData, cgSeqData, startPos, endPos,
     QQ <- x[order(x$pos), ]
     QQ=subset(QQ, pos >= startPos & pos <= endPos)
     return(QQ)
-  })
+    })
 
     if (is.function(updateProgress))
         updateProgress(message="Filtering GC data", value=0.5)
@@ -33,7 +33,7 @@ prepSC <- function(gcSeqData, cgSeqData, startPos, endPos,
     QQ <- x[order(x$pos), ]
     QQ=subset(QQ, pos >= startPos & pos <= endPos)
     return(QQ)
-  })
+    })
 
     allCgSites <- unique(do.call(c, cgSeqSub))
     allGcSites <- unique(do.call(c, gcSeqSub))
@@ -43,7 +43,7 @@ prepSC <- function(gcSeqData, cgSeqData, startPos, endPos,
     if (length(useSeq) == 0)
     {
     stop("No valid sites in designated range. 
-         Try different start and end positions.")
+        Try different start and end positions.")
     }
 
     cgSeqSub <- cgSeqSub[useSeq]

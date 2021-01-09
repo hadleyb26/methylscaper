@@ -22,12 +22,12 @@
 #' @importFrom Rfast Dist
 #' @export
 initialOrder <- function(inputGCH, inputHCG, Method="PCA", weightStart=NULL, 
-                         weightEnd=NULL, weightFeature="red", 
-                         updateProgress=NULL){
+    weightEnd=NULL, weightFeature="red", 
+    updateProgress=NULL){
 
     ## File checks:
     if (nrow(inputHCG) != nrow(inputGCH)) 
-       {stop("Input files have different numbers of rows.")}
+        {stop("Input files have different numbers of rows.")}
 
     if (all(rownames(inputGCH) == inputGCH[, 1])) inputGCH <- inputGCH[, -1]
     if (all(rownames(inputHCG) == inputHCG[, 1])) inputHCG <- inputHCG[, -1]
@@ -53,13 +53,13 @@ initialOrder <- function(inputGCH, inputHCG, Method="PCA", weightStart=NULL,
         if (weightFeature == "red") {
             FEATURE=3
             weightVector <- apply(inputHCG[, weightStart:weightEnd], 1, 
-                                  function(x) 
+                function(x) 
                 sum(x == FEATURE))
         }
         if (weightFeature == "yellow") {
             FEATURE=-3
             weightVector <- apply(inputGCH[, weightStart:weightEnd], 1, 
-                                  function(x) 
+                function(x) 
                 sum(x == FEATURE))
         }
         weightVector[weightVector == 0] <- 1 # We dont want to have 0 weights
@@ -97,7 +97,7 @@ initialOrder <- function(inputGCH, inputHCG, Method="PCA", weightStart=NULL,
             toClustWeighted <- diag(wSqrt) %*% toClust
 
             distMat <- asDist(Rfast::Dist(toClustWeighted, 
-                                          method="euclidean"))
+                method="euclidean"))
             order1 <- seriation::seriate(distMat, method=Method)
             order1 <- seriation::get_order(order1)
         }
@@ -142,4 +142,3 @@ recode <- function(inputGCH, inputHCG)
 
 }
 
-Delete 
