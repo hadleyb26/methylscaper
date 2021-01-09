@@ -157,15 +157,15 @@ seqAlign <- function(read, refString, substitutionMatrix) {
     fastaString <- DNAString(toupper(c2s(read)))
 
     alignBB <- pairwiseAlignment(reverseComplement(refString),
-                                 reverseComplement(fastaString),
-                                 type="global-local", gapOpening=8, 
-                                 substitutionMatrix=substitutionMatrix)
+        reverseComplement(fastaString),
+        type="global-local", gapOpening=8, 
+        substitutionMatrix=substitutionMatrix)
     alignAB <- pairwiseAlignment(refString, reverseComplement(fastaString),
-                                 type="global-local", gapOpening=8, 
-                                 substitutionMatrix=substitutionMatrix)
+        type="global-local", gapOpening=8, 
+        substitutionMatrix=substitutionMatrix)
     alignAA <- pairwiseAlignment(refString, fastaString,type="global-local", 
-                                 gapOpening=8, 
-                                 substitutionMatrix=substitutionMatrix)
+        gapOpening=8, 
+        substitutionMatrix=substitutionMatrix)
 
     maxAlign <- which.max(c(score(alignBB), score(alignAB), score(alignAA)))
     allSeq <- list(alignBB, alignAB, alignAA)
@@ -186,10 +186,10 @@ mapSeq <- function(i, sites) {
     missingBP <- which(editSeq == ".")
 
     sitesTemp <- c(0, sites, length(editSeq)+1)
-    for (j in 1:(length(sitesTemp)-1)) {
-        toFill <- seq(sitesTemp[j]+1, (sitesTemp[j+1]-1))
+    for (j in seq_len(length(sitesTemp) - 1)) {
+        toFill <- seq(sitesTemp[j] + 1, (sitesTemp[j + 1] - 1))
         s1 <- editSeq[pmax(1, sitesTemp[j])]
-        s2 <- editSeq[pmin(length(i), sitesTemp[j+1])]
+        s2 <- editSeq[pmin(length(i), sitesTemp[j + 1])]
         isFirst <- (pmax(1, sitesTemp[j]) == 1)
 
     if (s1 == "2" & s2 == "2") { fillVec <- 1 }
