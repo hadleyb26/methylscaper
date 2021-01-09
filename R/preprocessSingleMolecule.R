@@ -5,16 +5,16 @@
 #' @param ref A reference sequence
 #' @param fasta A list of sequences
 #' @param fastaSubset A vector of indices indicating which 
-#'                    sequences to process.
+#'                      sequences to process.
 #' @param multicoreParam A MulticoreParam object, 
-#'                       used to align sequences in parallel.
+#'                          used to align sequences in parallel.
 #' @param updateProgress Used to add a progress bar to the Shiny app. 
-#'                       Should not be used otherwise.
+#'                          Should not be used otherwise.
 #' @param logFile String indicating where to save a log of the alignment 
-#'                process. If left NULL, no log is saved.
+#'                  process. If left NULL, no log is saved.
 #'
 #' @importFrom Biostrings DNAString DNA_ALPHABET reverseComplement
-#'             pairwiseAlignment score alignedPattern alignedSubject
+#'              pairwiseAlignment score alignedPattern alignedSubject
 #' @importFrom seqinr c2s s2c read.fasta
 #' @importFrom BiocParallel bplapply
 #' @export
@@ -111,7 +111,7 @@ alignSequences <- function(fasta, refString, logVector, multicoreParam=NULL,
                 detail=paste(i, "/", length(fasta)),
                 value=(0.1+ 0.65/length(fasta) * i))
         seqAlign(fasta[[i]], refString, substitutionMatrix=penaltyMat)
-        }) else seqAlignOut <- bplapply(1:length(fasta),
+        }) else seqAlignOut <- bplapply(seq_len(length(fasta)),
             function(i) 
                 seqAlign(fasta[[i]], refString, 
                     substitutionMatrix=penaltyMat)
@@ -202,29 +202,29 @@ mapSeq <- function(i, sites) {
     fillVec <- rep(fillVec, length(toFill))
     editSeq[toFill] <- fillVec
     editSeq[intersect(toFill, missingBP)] <- "."
-  }
+    }
 
     substringTable <- getContigSubstrings(editSeq)
     longMissing <- which(substringTable$char == "." & substringTable$count > 3)
     shortNonMissing <- which(substringTable$char == "-" 
-                             & substringTable$count <= 20)
+        & substringTable$count <= 20)
     shortNonMissingSurrounded <- shortNonMissing[(shortNonMissing + 1)
-                                                 %in% longMissing | 
-                                                 (shortNonMissing - 1) 
-                                                 %in% longMissing]
+                                    %in% longMissing | 
+                                    (shortNonMissing - 1) 
+                                    %in% longMissing]
     counts <- as.numeric(substringTable$count)
     for (idx in shortNonMissingSurrounded) 
     ## this part is tricky... we want to change the short non-missing sections
     ## to missing
-  {
-        if (idx == 1) editSeq[1:counts[idx]] <- "."
+    {
+        if (idx == 1) editSeq[seq_len(counts[idx])] <- "."
         else
         {
-            first <- sum(counts[1:(idx-1)]) + 1
+            first <- sum(counts[seq_len(idx-1)]) + 1
             last <- first + counts[idx] - 1
             editSeq[first:last] <- "."
         }
-  }
+    }
 
     return(editSeq)
 }
@@ -251,6 +251,6 @@ getContigSubstrings <- function(s)
         i <- j
     }
     substringTable <- data.frame(char=substringTable$char[-1], 
-                                 count=as.numeric(substringTable$count[-1]))
+                                count=as.numeric(substringTable$count[-1]))
     return(substringTable)
 }
