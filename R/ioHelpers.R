@@ -9,18 +9,18 @@ readMethylationData <- function(filepath, ...)
     if (grepl(pattern=".tsv", x=filepath, fixed=TRUE) |
         grepl(pattern=".txt", x=filepath, fixed=TRUE))
         read.table(filepath, header=TRUE, row.names=1,
-                   stringsAsFactors=FALSE, quote="", sep="\t",
-                   comment.char="", ...)
+                    stringsAsFactors=FALSE, quote="", sep="\t",
+                    comment.char="", ...)
     else
         read.table(filepath, header=TRUE, row.names=1,
-                   stringsAsFactors=FALSE, quote="", sep=", ",
-                   comment.char="", ...)
+                    stringsAsFactors=FALSE, quote="", sep=", ",
+                    comment.char="", ...)
 }
 
 #' Writing methylation data matrices
 #'
 #' @param dat A methylation data matrix, 
-#'            output from the \code{runAlign} function.
+#'              output from the \code{runAlign} function.
 #' @param filepath A string of the file path.
 #' @param ... Additional parameters passed to \code{write.table}.
 #' @importFrom utils write.table
@@ -31,9 +31,9 @@ writeMethylationData <- function(dat, filepath, ...)
         write.table(dat, file=filepath, quote=FALSE, row.names=FALSE, 
                     sep=", ", ...)
     else if (grepl(pattern=".tsv", x=filepath, fixed=TRUE) |
-             grepl(pattern=".txt", x=filepath, fixed=TRUE))
-             write.table(dat, file=filepath, quote=FALSE, row.names=FALSE, 
-                         sep="\t", ...)
+            grepl(pattern=".txt", x=filepath, fixed=TRUE))
+            write.table(dat, file=filepath, quote=FALSE, row.names=FALSE, 
+                        sep="\t", ...)
     else # if the file isn't csv, tsv, or txt, we force it to be csv
     {
         filepath <- paste0(filepath, ".csv")
