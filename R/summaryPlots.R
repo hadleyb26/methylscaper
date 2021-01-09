@@ -9,11 +9,11 @@
 #' @export
 percent_C <- function(orderObject, plotPercents=FALSE, ...){
     dat <- orderObject$toClust
-    redSites <- which(dat[1, 1:ncol(dat)] == 4 |
-                      dat[1, 1:ncol(dat)] == 1)
+    redSites <- which(dat[1, seq_len(ncol(dat))] == 4 |
+        dat[1, seq_len(ncol(dat))] == 1)
 
-    yellowSites <- which(dat[1,1:ncol(dat)] == -4 |
-                         dat[1, 1:ncol(dat)] == -1)
+    yellowSites <- which(dat[1, seq_len(ncol(dat))] == -4 |
+        dat[1, seq_len(ncol(dat))] == -1)
     cRed <- sapply(redSites, function(i){
         sum(dat[, i] == 4) / nrow(dat)
     })
@@ -28,12 +28,12 @@ percent_C <- function(orderObject, plotPercents=FALSE, ...){
             bty='n', cex.lab=1.3, xaxt='n', yaxt='n', ...)
         axis(side=1, lwd=2, cex.axis=1.2)
         axis(side=2, lwd=2, cex.axis=1.2)
-        lines(x=redSites - ncol(dat)/2, y=cRed, col="brown1")
+        lines(x=redSites - ncol(dat) / 2, y=cRed, col="brown1")
         points(x=yellowSites, y=cYellow, col="gold2", pch=19)
         lines(x=yellowSites, y=cYellow, col="gold2")
 
         nSites <- length(union(redSites, yellowSites))
-        labs <- union(redSites, yellowSites)[seq(1, nSites, by=nSites/12)]
+        labs <- union(redSites, yellowSites)[seq(1, nSites, by=nSites / 12)]
     }
     final <- list(cRed, cYellow)
     names(final) <- c("red", "yellow")
@@ -52,7 +52,7 @@ percent_C <- function(orderObject, plotPercents=FALSE, ...){
 #' @importFrom graphics hist
 #' @export
 proportion_color <- function(orderObject, color="YELLOW", 
-                            plotHistogram=FALSE, ...){
+    plotHistogram=FALSE, ...){
     colorIndicator <- ifelse(color == "YELLOW", -1, 1)
     proportion <- apply(orderObject$toClust, 1, function(x){
     sum(x == colorIndicator * 3 | x == colorIndicator * 4) / (length(x) / 2)
@@ -61,10 +61,10 @@ proportion_color <- function(orderObject, color="YELLOW",
     opar <- par(lwd=4)
     h <- hist(proportion, plot=FALSE, breaks=15)
     plot(h, xlim=c(0, 1), border=ifelse(color == "YELLOW", "gold2", "brown1"),
-         col="gray75",
-         lwd=2, ...)
+        col="gray75",
+        lwd=2, ...)
     par(opar)
-  }
+    }
     return(proportion)
 }
 
@@ -80,11 +80,12 @@ proportion_color <- function(orderObject, color="YELLOW",
 #' @importFrom stats filter
 #' @importFrom graphics legend
 #' @export
-average_status <- function(orderObject, windowLength=1, plotAverages=FALSE, ...)
+average_status <- function(orderObject, windowLength=1,
+    plotAverages=FALSE, ...)
 {
-    gchNum <- orderObject$toClust[,1:(ncol(orderObject$toClust) / 2)]
-    hcgNum <- orderObject$toClust[,(ncol(orderObject$toClust) / 2 + 1)
-                                  :ncol(orderObject$toClust)]
+    gchNum <- orderObject$toClust[, seq_len(ncol(orderObject$toClust) / 2)]
+    hcgNum <- orderObject$toClust[, (ncol(orderObject$toClust) / 2 + 1)
+        :ncol(orderObject$toClust)]
 
     accSum <- colSums(gchNum == -3)
     methSum <- colSums(hcgNum == 3)
@@ -101,10 +102,10 @@ average_status <- function(orderObject, windowLength=1, plotAverages=FALSE, ...)
     {
         plot(movingAccAvg, type="l", col="gold2",
              xlab="Position along read", ylab="Population-averaged status", 
-             ylim=c(0,1))
+             ylim=c(0, 1))
         lines(movingMethAvg, col="brown1")
         legend("topright", legend=c("Methylation", "Accessibility"), 
-               fill=c("brown1", "gold2"))
+            fill=c("brown1", "gold2"))
     }
     return(list(methAvg=movingMethAvg, accAvg=movingAccAvg))
 }
