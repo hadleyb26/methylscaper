@@ -2,7 +2,7 @@
 #' 
 #' @param orderObject An object of class \code{orderObject}
 #' @param plotPercents Logical, indicates whether to 
-#'                     generate the percentage plot
+#'                      generate the percentage plot
 #' @param ... Additional parameters used by the \code{plot} function.
 #' 
 #' @importFrom graphics hist lines plot points
@@ -74,7 +74,7 @@ proportion_color <- function(orderObject, color="YELLOW",
 #' @param window_length Length of the window to be used to compute 
 #'                      a moving average.
 #' @param plotAverages Logical, indicates whether to generate a line plot 
-#'                     of average status.
+#'                      of average status.
 #' @param ... Addition parameters used by the \code{plot} function.
 #'
 #' @importFrom stats filter
