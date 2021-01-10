@@ -1,12 +1,12 @@
 #Plotting customization:
     ## blankWidth: How much space between the two plots
     ## drawLine: Whether a line is drawn for the "DNA" 
-              ## strand is drawn above the CG/GC sites.
+        ## strand is drawn above the CG/GC sites.
     ## Title: Title of plot
     ## plotFAST: fast renders a low quality version. for high quality
-              ## publication image set FALSE.
+        ## publication image set FALSE.
     ## drawKey: whether to draw a key representing a nucleosome
-             ## of 147bp at the bottom.
+        ## of 147bp at the bottom.
 
 ##' Generate Sequence Plot
 ##'
@@ -27,8 +27,8 @@
 ##' @importFrom graphics abline image par axis segments
 ##' @export
 plotSequence <- function(orderObject, plotFAST=TRUE,
-                            blankWidth=75, Title="",
-                            drawLine=TRUE, drawKey=TRUE) {
+    blankWidth=75, Title="",
+    drawLine=TRUE, drawKey=TRUE) {
     ## Start with yellow at top as the default:
     toClust <- orderObject$toClust
     order1 <- orderObject$order1
@@ -36,7 +36,7 @@ plotSequence <- function(orderObject, plotFAST=TRUE,
     inputHCG <- toClust[, (ncol(toClust) / 2 + 1):ncol(toClust)]
 
     mycols <- c("darkgoldenrod2", "yellow", "gray62",  "black", "gray80",
-                "white", "gray80", "black", "gray62", "red", "darkred")
+        "white", "gray80", "black", "gray62", "red", "darkred")
     VALS <- c(-5, -4, -3, -2.5, -2, -1, 0, 1, 2, 2.5, 3, 4)
 
 
@@ -44,32 +44,33 @@ plotSequence <- function(orderObject, plotFAST=TRUE,
     inputGCHFix <- inputGCH
 
     blankCOLS <- matrix(rep(0, nrow(inputHCG)*blankWidth), 
-                        nrow=nrow(inputHCG), ncol=blankWidth)
+        nrow=nrow(inputHCG), ncol=blankWidth)
     
     toPlotFixOg <- cbind(inputHCGFix, blankCOLS, inputGCHFix)
 
     sites <- which(apply(abs(toPlotFixOg), 2, 
-                        function(x) any(x %in% c(4, 1))))
+        function(x) any(x %in% c(4, 1))))
     sitesScale <- sites / ncol(toPlotFixOg) # relative to the 'plot'
 
     toPlotFix <- toPlotFixOg[rev(order1), ]
 
     ## Add some rows in order to add a legend:
     if(drawKey == TRUE) {
-            blankROW <- matrix(rep(0, ncol(toPlotFix)*12), nrow=12,
-                                ncol=ncol(toPlotFix))
-            blankROW[5:8,seq_len(147)] <- 2
-            blankROW[5:8,((seq_len(147))+(ncol(inputHCGFix) + ncol(blankCOLS)))] <- 2
-            toPlotFix <- rbind(blankROW, toPlotFix)
+        blankROW <- matrix(rep(0, ncol(toPlotFix)*12), nrow=12,
+            ncol=ncol(toPlotFix))
+        blankROW[5:8,seq_len(147)] <- 2
+        blankROW[5:8,((seq_len(147))+(ncol(inputHCGFix) 
+            + ncol(blankCOLS)))] <- 2
+        toPlotFix <- rbind(blankROW, toPlotFix)
     }
 
     ## Plotting:
     par(xpd=F, mar=c(2, 2, 2, 1), mgp=c(0, 0.5, 0))
     image(t(toPlotFix), col=mycols, axes=FALSE, breaks=VALS,
-            main=Title, useRaster=plotFAST, ylim=c(0, 1.028))
+        main=Title, useRaster=plotFAST, ylim=c(0, 1.028))
     axis(3, at=sitesScale, labels=rep("", length(sitesScale)),
-            tick=TRUE, line=.1, col="white", cex=1, lwd=1,
-            col.ticks="black", tck=.02)
+        tick=TRUE, line=.1, col="white", cex=1, lwd=1,
+        col.ticks="black", tck=.02)
     ## Where to put the axes:
     plot1 <- round(ncol(inputHCGFix)/ncol(toPlotFix), 2) # convert these 
     ## back to the site number so we can do refinement
@@ -81,14 +82,14 @@ plotSequence <- function(orderObject, plotFAST=TRUE,
 
     toLabel <- rev(seq(1, length(order1), by=round(length(order1)/8)))
     if (!(length(order1) %in% toLabel)) toLabel <- c(length(order1), 
-                                                    toLabel)
+        toLabel)
     yAxisStartingPoint <- ifelse(drawKey, nrow(blankROW) / nrow(toPlotFix),
-                                    0)
+        0)
     axis(2, at=seq(yAxisStartingPoint, 1, length.out=length(toLabel)),
-            labels=toLabel)
+        labels=toLabel)
 
     toLabel <- round(c(seq(1, ncol(inputHCGFix), length.out=5),
-                        seq(1, ncol(inputGCHFix), length.out=5)))
+        seq(1, ncol(inputGCHFix), length.out=5)))
     axis(1, at=seq(0,plot1, length.out=5), labels=toLabel[seq_len(5)])
     axis(1, at=seq(plot2,1, length.out=5), labels=toLabel[seq_len(5)])
 
@@ -99,4 +100,4 @@ plotSequence <- function(orderObject, plotFAST=TRUE,
         segments(0, top1, plot1, top1, lwd=1)
         segments(plot2, top1, 1, top1, lwd=1)
     }
-  }
+}

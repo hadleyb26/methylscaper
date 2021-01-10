@@ -56,7 +56,7 @@ proportion_color <- function(orderObject, color="YELLOW",
     colorIndicator <- ifelse(color == "YELLOW", -1, 1)
     proportion <- apply(orderObject$toClust, 1, function(x){
     sum(x == colorIndicator * 3 | x == colorIndicator * 4) / (length(x) / 2)
-  })
+    })
     if (plotHistogram) {
     opar <- par(lwd=4)
     h <- hist(proportion, plot=FALSE, breaks=15)
@@ -101,8 +101,8 @@ average_status <- function(orderObject, windowLength=1,
     if (plotAverages)
     {
         plot(movingAccAvg, type="l", col="gold2",
-             xlab="Position along read", ylab="Population-averaged status", 
-             ylim=c(0, 1))
+            xlab="Position along read", ylab="Population-averaged status", 
+            ylim=c(0, 1))
         lines(movingMethAvg, col="brown1")
         legend("topright", legend=c("Methylation", "Accessibility"), 
             fill=c("brown1", "gold2"))

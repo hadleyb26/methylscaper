@@ -14,16 +14,13 @@
 
 refineFunction <- function(orderObject, refineStart, refineEnd, 
     Method="HC_average") {
-  
     toClust <- orderObject$toClust
     order1 <- orderObject$order1
     toRefineOrder <- order1[refineStart:refineEnd]
-  
-  
     toRefineClust <- toClust[toRefineOrder, ]
-  
+
     if (Method == "PCA") {
-    colCentered <- apply(toRefineClust, 2, function(x) x - mean(x))
+        colCentered <- apply(toRefineClust, 2, function(x) x - mean(x))
     try1 <- svd(colCentered, nu=1, nv=0)
     orderNew <- order(try1$u[, 1])
     } else { # Methods available for refining are: ARSA, HC_complete, 
@@ -36,13 +33,12 @@ refineFunction <- function(orderObject, refineStart, refineEnd,
     orderNew <- seriation::seriate(distMat, method=Method, verbose=FALSE)
     orderNew <- seriation::get_order(orderNew)
     }
-  
-  
-    ## New order:
+
+
+## New order:
     orderNew <- order1[refineStart:refineEnd][orderNew]
     orderFinal <- order1
     orderFinal[refineStart:refineEnd] <- orderNew
-  
     return(orderFinal)
 }
 

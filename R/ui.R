@@ -39,7 +39,7 @@ ui <- navbarPage("methylscaper",
                                     downloadButton("sc_log_down", 
                                         label="Download changes log"))
                                     )
-                                  )
+                                )
                             )),
             tabPanel("Summary Statistics",
                 radioButtons("sc_proportion_choice", label="Proportion of:",
@@ -84,7 +84,7 @@ ui <- navbarPage("methylscaper",
                             label="Force Reverse"),
                             verbatimTextOutput("sm_info")
                     ),
-                                                 
+                    
                     mainPanel(
                         fluidRow(column(width=8,
                             plotOutput(outputId="sm_seqPlot",
