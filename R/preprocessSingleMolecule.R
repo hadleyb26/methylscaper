@@ -251,6 +251,6 @@ getContigSubstrings <- function(s)
         i <- j
     }
     substringTable <- data.frame(char=substringTable$char[-1], 
-                                count=as.numeric(substringTable$count[-1]))
+        count=as.numeric(substringTable$count[-1]))
     return(substringTable)
 }
