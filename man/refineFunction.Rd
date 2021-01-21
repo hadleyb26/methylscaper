@@ -8,9 +8,10 @@ refineFunction(orderObject, refineStart, refineEnd, Method = "HC_average")
 }
 \arguments{
 \item{orderObject}{An object of class \code{orderObject}, 
-    generated with the \code{initialOrder} function.}
+generated with the \code{initialOrder} function.}
 
-\item{refineStart}{The index of the first sample (row) used in the refinement.}
+\item{refineStart}{The index of the first sample (row) used in the 
+refinement.}
 
 \item{refineEnd}{The index of the last sample used in the refinement.}
 

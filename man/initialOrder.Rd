@@ -5,8 +5,8 @@
 \title{Ordering of methylation data}
 \usage{
 initialOrder(
-  input.GCH,
-  input.HCG,
+  inputGCH,
+  inputHCG,
   Method = "PCA",
   weightStart = NULL,
   weightEnd = NULL,
@@ -15,13 +15,14 @@ initialOrder(
 )
 }
 \arguments{
-\item{input.GCH}{The GCH input data.}
+\item{inputGCH}{The GCH input data.}
 
-\item{input.HCG}{The HCG input data.}
+\item{inputHCG}{The HCG input data.}
 
-\item{Method}{Indicates the seriation method to use. The default option
-    is "PCA", which orders the data using the first principal component. 
-    Any seriation method provided in the \code{seriation} package is valid.}
+\item{Method}{Indicates the seriation method to use. 
+The default option is "PCA", which orders the data using 
+the first principal component. Any seriation method provided 
+in the \code{seriation} package is valid.}
 
 \item{weightStart}{Index of the first column used in the weighted seriation.}
 
@@ -29,14 +30,15 @@ initialOrder(
 
 \item{weightFeature}{Indicates whether to weight the GCH or HCG data.}
 
-\item{updateProgress}{A function to handle the progress bar for the Shiny app.
-    Should not be used when using the function independently.}
+\item{updateProgress}{A function to handle the progress bar for the 
+Shiny app. Should not be used when using the function 
+independently.}
 }
 \value{
-An object of class \code{orderObject}, which contains the 
-    generated ordering and the cleaned data matrix.
+An object of class \code{orderObject}, which contains the generated 
+        ordering and the cleaned data matrix.
 }
 \description{
-Orders methylation data using a given seriation method. This function can
-    also perform a weighted seriation if the method is set to "PCA".
+Orders methylation data using a given seriation method. This function 
+can also perform a weighted seriation if the method is set to "PCA".
 }

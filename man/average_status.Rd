@@ -2,21 +2,20 @@
 % Please edit documentation in R/summaryPlots.R
 \name{average_status}
 \alias{average_status}
-\title{Calculate the average methylation/accessibility 
-    status across all reads.}
+\title{Calculate the average methylation/accessibility status across all reads.}
 \usage{
-average_status(orderObject, window_length = 1, plotAverages = FALSE, ...)
+average_status(orderObject, windowLength = 1, plotAverages = FALSE, ...)
 }
 \arguments{
 \item{orderObject}{An object of class \code{orderObject}}
 
-\item{window_length}{Length of the window to be used to 
-    compute a moving average.}
-
-\item{plotAverages}{Logical, indicates whether to
-    generate a line plot of average status.}
+\item{plotAverages}{Logical, indicates whether to generate a line plot 
+of average status.}
 
 \item{...}{Addition parameters used by the \code{plot} function.}
+
+\item{window_length}{Length of the window to be used to compute 
+a moving average.}
 }
 \description{
 Calculate the average methylation/accessibility status across all reads.

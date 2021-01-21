@@ -9,25 +9,27 @@ plotSequence(
   plotFAST = TRUE,
   blankWidth = 75,
   Title = "",
-  drawLine = T,
-  drawKey = T
+  drawLine = TRUE,
+  drawKey = TRUE
 )
 }
 \arguments{
-\item{orderObject}{An object of class \code{orderObject} 
-    that contains the processed data and the ordering.}
+\item{orderObject}{An object of class \code{orderObject} that 
+contains the processed data and the ordering.}
 
-\item{plotFAST}{Logical, setting to FALSE will generate a higher quality plot.}
+\item{plotFAST}{Logical, setting to FALSE will generate a higher quality 
+plot.}
 
-\item{blankWidth}{Indicates the amount of space to leave between the two plots}
+\item{blankWidth}{Indicates the amount of space to leave between the two 
+plots}
 
 \item{Title}{The title of the plot.}
 
-\item{drawLine}{Logical, indicates whether to 
-    draw a line above the CG/GC sites.}
+\item{drawLine}{Logical, indicates whether to draw a line above the CG/GC 
+sites.}
 
-\item{drawKey}{Logical, indicates whether to draw a keymrepresenting a 147bp
-    nucleosome at the bottom of the plot.}
+\item{drawKey}{Logical, indicates whether to draw a key representing a 
+147bp nucleosome at the bottom of the plot.}
 }
 \description{
 Generates an ordered sequence plot of methylation data.

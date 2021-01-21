@@ -7,10 +7,10 @@
 runAlign(
   ref,
   fasta,
-  fasta.subset = (1:length(fasta)),
+  fastaSubset = (seq_len(fasta)),
   multicoreParam = NULL,
   updateProgress = NULL,
-  log.file = NULL
+  logFile = NULL
 )
 }
 \arguments{
@@ -18,16 +18,17 @@ runAlign(
 
 \item{fasta}{A list of sequences}
 
-\item{fasta.subset}{A vector of indices indicating which sequences to process.}
+\item{fastaSubset}{A vector of indices indicating which 
+sequences to process.}
 
-\item{multicoreParam}{A MulticoreParam object, used to 
-    align sequences in parallel.}
+\item{multicoreParam}{A MulticoreParam object, 
+used to align sequences in parallel.}
 
 \item{updateProgress}{Used to add a progress bar to the Shiny app. 
-    Should not be used otherwise.}
+Should not be used otherwise.}
 
-\item{log.file}{String indicating where to save a log of the alignment process. 
-    If left NULL, no log is saved.}
+\item{logFile}{String indicating where to save a log of the alignment 
+process. If left NULL, no log is saved.}
 }
 \description{
 Runs the preprocessing methods for single-molecule data on sequences.

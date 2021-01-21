@@ -12,7 +12,7 @@ forceReverse(
 }
 \arguments{
 \item{orderObject}{An object of class \code{orderObject}, 
-    generated with the \code{initialOrder} function.}
+generated with the \code{initialOrder} function.}
 
 \item{reverseStart}{The first index to be included in the reversal.}
 
@@ -23,5 +23,5 @@ The new complete ordering, with the reversal applied.
 }
 \description{
 This reverses a subset of the ordering, as determined by the user. 
-    By default, the entire ordering is reversed.
+By default, the entire ordering is reversed.
 }

@@ -9,7 +9,8 @@ percent_C(orderObject, plotPercents = FALSE, ...)
 \arguments{
 \item{orderObject}{An object of class \code{orderObject}}
 
-\item{plotPercents}{Logical, indicates whether to generate the percentage plot}
+\item{plotPercents}{Logical, indicates whether to 
+generate the percentage plot}
 
 \item{...}{Additional parameters used by the \code{plot} function.}
 }

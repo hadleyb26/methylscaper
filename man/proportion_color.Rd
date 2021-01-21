@@ -2,8 +2,7 @@
 % Please edit documentation in R/summaryPlots.R
 \name{proportion_color}
 \alias{proportion_color}
-\title{Calculate the proportion of methylated bases for
-    the GCH and HCG data sets.}
+\title{Calculate the proportion of methylated bases for the GCH and HCG data sets.}
 \usage{
 proportion_color(orderObject, color = "YELLOW", plotHistogram = FALSE, ...)
 }
@@ -12,8 +11,8 @@ proportion_color(orderObject, color = "YELLOW", plotHistogram = FALSE, ...)
 
 \item{color}{Indicates which data set to compute proportions for}
 
-\item{plotHistogram}{Indicates whether to plot a histogram 
-    of the proportions across all reads.}
+\item{plotHistogram}{Indicates whether to plot a histogram of 
+the proportions across all reads.}
 
 \item{...}{Additional parameters used by the \code{hist} function.}
 }
